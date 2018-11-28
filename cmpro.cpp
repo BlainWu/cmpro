@@ -142,7 +142,7 @@ int main()
     static clock_t tk_cur = clock();
     //tc：用于疲劳判定
     clock_t tc_rec = clock();
-    //clock_t tc_cur = clock();
+    clock_t tc_cur ;
 
     //面部切割过程量
     static long fleft = 0, fright = WIN_WIDTH, ftop = 0, fdown = WIN_HEIGHT;
@@ -261,16 +261,16 @@ int main()
                 else{
                     pt = k * FLK[kst] * 100;
                     //判断算法
-                    if(pt>=55.0 && score<0.002){
+                    if(pt>=100*JM_1 && score<0.002){
                         score = 0.0;
                     }
-                    if(pt>=55.0 && score>0.001){
+                    if(pt>=100*JM_1 && score>0.001){
                         score = (30.0-pt)+score;
                     }
-                    if(pt<55.001 && score<SCORE_MAX+0.01){
+                    if(pt<100*JM_1 && score<SCORE_MAX+0.01){
                         score = (55-pt)+score;
                     }
-                    if(pt<55.001 && score>SCORE_MAX){
+                    if(pt<100*JM_1 && score>SCORE_MAX){
                         score = SCORE_MAX;
                         score = (55.0-pt)+score;
                     }
