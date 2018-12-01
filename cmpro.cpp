@@ -67,6 +67,13 @@ double lk_ju(full_object_detection& shp){
     return k;
 }
 
+double nod_detect(full_object_detection& shp){
+    long wit = shp.part(0).x()-shp.part(16).x();
+    long hei = shp.part(24).y()-shp.part(8).y();
+    long result = wit/hei;
+    return result;
+
+}
 
 int main()
 {
@@ -113,7 +120,8 @@ int main()
     //k浮动系数
     const std::vector<double> FLK={1.0,0.8};
     const unsigned long FL_EXDT=5000000;    //浮动判定延续时间
-
+    //点头判定阀值
+    const double NOD_JU = 0.46;
     //口部判定阈值
     const double TH_MJU =0.6;
 
@@ -152,6 +160,8 @@ int main()
     static int stu = 0;   //疲劳状态编号
     static int kst = 0;   //检测浮动严格程度
     static bool is_ecsd = false; //当前帧是否处于「中度/重度疲劳」状态
+    static  bool is_nod = false ;//是否在点头状态
+    static bool is_yawn = false ;//是否在打哈欠
     //static bool is_eces = false; //当前帧是否处于「中度/重度疲劳延时」状态
     static double pt = 0.0;
     static double score = 0.0;
@@ -201,7 +211,10 @@ int main()
                 double k1 = rk_ju(sps), k2 = lk_ju(sps), k,kp;
                 double m3 = m_ju(sps);
 
-
+                double nod_ju = nod_detect(sps);
+                //判断是否为点头
+                if(nod_ju> NOD_JU ) is_nod = true ;
+                else is_nod = false;
 
 
                 if(kst == 1){
@@ -214,8 +227,11 @@ int main()
                 //口部判定->检测浮动严格程度
                 if(m3 > TH_MJU){
                     kst = 1;
+                    is_yawn = true;
                     tk_rec=clock();
                 }
+                else is_yawn = false ;
+
                 //眼睛开闭程度不统一，判为异常驾驶状态->检测浮动严格程度
                 if(abs(k1-k2)>0.2){
                     stu = 5;
@@ -351,6 +367,11 @@ int main()
 
 
             if(IS_SHOWN_WIN_ON){
+                if(is_yawn) putText(showimg,"Yawning!!!",cv::Point(50,150),CV_FONT_NORMAL,1,cvScalar(178,35,35),1,1);
+                else  putText(showimg,"Normal",cv::Point(50,150),CV_FONT_NORMAL,1,cvScalar(255,255,255),1,1);
+                if(is_nod) putText(showimg,"Nodding head!!!",cv::Point(50,100),CV_FONT_NORMAL,1,cvScalar(178,35,35),1,1);
+                else  putText(showimg,"Normal",cv::Point(50,100),CV_FONT_NORMAL,1,cvScalar(255,255,255),1,1);
+
                 putText(showimg, shownum[stu], cv::Point(50,200), CV_FONT_NORMAL, 1, cvScalar(255,255,255),1,1);
                 imshow("cap", showimg);
             }
