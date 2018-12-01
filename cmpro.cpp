@@ -4,6 +4,9 @@
 #include <dlib/image_processing/render_face_detections.h>  
 #include <dlib/image_processing.h>
 #include <ctime>
+#include "soundpool.cpp"
+#include <SFML/Audio.hpp>
+
 
 using namespace dlib;
 
