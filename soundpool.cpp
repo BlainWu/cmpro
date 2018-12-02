@@ -11,46 +11,54 @@
  * */
 
 #include <SFML/Audio.hpp>
-#include <vector>
-#include <queue>
 #include <thread>
 
-const int type_crt=7;
+const int type_crt=6;
 enum {
     SD_INITIANIZED=0,
     SD_DEGREE_3=1,
     SD_DEGREE_2=2,
     SD_DEGREE_1=3,
-    SD_NORMAL=4,
-    SD_NOD=5,
-    SD_YAW=6
+    SD_NOD=4,
+    SD_YAW=5
 };
 
 
 class sdplayer{
 public:
     void reload(){
-        bf.clear();
-        //load sound file here
-        //buffer.loadFromFile("sound.wav")
+        sdplayer();
     }
     sdplayer(){
-        reload();
-        //queue.clear();
+        sf::SoundBuffer tmp;
+        bf0.loadFromFile("../sdpool/0.wav");
+        bf1.loadFromFile("../sdpool/1.wav");
+        bf2.loadFromFile("../sdpool/2.wav");
+        bf3.loadFromFile("../sdpool/3.wav");
+        bf4.loadFromFile("../sdpool/4.wav");
+        bf5.loadFromFile("../sdpool/5.wav");
+
     }
     void play(int index){
         std::thread task_play(play_handle,index);
         task_play.detach();
     }
+
 private:
-    static std::vector<sf::SoundBuffer> bf;
+
+    static sf::SoundBuffer bf0,bf1,bf2,bf3,bf4,bf5;
     //queue<int> playqueue;
     static void play_handle(int index){
         sf::Sound sd;
-        if(index>=0 && index<type_crt){
-            sd.setBuffer(bf[index]);
-            sd.play();
+        switch (index){
+            case 0: sd.setBuffer(bf0);break;
+            case 1: sd.setBuffer(bf1);break;
+            case 2: sd.setBuffer(bf2);break;
+            case 3: sd.setBuffer(bf3);break;
+            case 4: sd.setBuffer(bf4);break;
+            case 5: sd.setBuffer(bf5);break;
         }
+        sd.play();
     }
 
 };

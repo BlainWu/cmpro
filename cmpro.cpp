@@ -80,6 +80,8 @@ double nod_detect(full_object_detection& shp){
 
 int main()
 {
+    sdplayer sdp;
+
     std::ifstream fin;
     fin.open("../conf.dat");
     std::vector<int> pin;
