@@ -5,53 +5,9 @@
 #include <dlib/image_processing.h>
 #include <ctime>
 
-double rk_ju(dlib::full_object_detection& shp){
-    if(shp.num_parts()<68){
-        std::cout << "face model missing" << std::endl;
-        return -1.0;
-    }
-    long le1=shp.part(39).x()-shp.part(36).x();
-    long le2=shp.part(39).y()-shp.part(36).y();
-    double le=sqrt(le1*le1+le2*le2);
-    long da1=shp.part(41).x()-shp.part(37).x();
-    long da2=shp.part(41).y()-shp.part(37).y();
-    long db1=shp.part(40).x()-shp.part(38).x();
-    long db2=shp.part(40).y()-shp.part(38).y();
-    double da=sqrt(da1*da1+da2*da2);
-    double db=sqrt(db1*db1+db2*db2);
-    double k;
-    if(le<1){
-        std::cout << "eyes detect mistake" << std::endl;
-        return -1.0;
-    }
-    k=(da+db)/le;
-    return k;
-}
+double rk_ju(dlib::full_object_detection& shp);
 
-double lk_ju(dlib::full_object_detection& shp){
-    if(shp.num_parts()<68){
-        std::cout << "face model missing" << std::endl;
-        return -1.0;
-    }
-
-    long le1=shp.part(45).x()-shp.part(42).x();
-    long le2=shp.part(45).y()-shp.part(42).y();
-    double le=sqrt(le1*le1+le2*le2);
-    long da1=shp.part(47).x()-shp.part(43).x();
-    long da2=shp.part(47).y()-shp.part(43).y();
-    long db1=shp.part(46).x()-shp.part(44).x();
-    long db2=shp.part(46).y()-shp.part(44).y();
-    double da=sqrt(da1*da1+da2*da2);
-    double db=sqrt(db1*db1+db2*db2);
-    double k;
-
-    if(le<1){
-        std::cout << "eyes detect mistake" << std::endl;
-        return -1.0;
-    }
-    k=(da+db)/le;
-    return k;
-}
+double lk_ju(dlib::full_object_detection& shp);
 
 int main(){
 
@@ -192,4 +148,54 @@ int main(){
         std::cout << e.what() << std::endl;
     }
     return 0;
+}
+
+
+
+double rk_ju(dlib::full_object_detection &shp) {
+    if(shp.num_parts()<68){
+        std::cout << "face model missing" << std::endl;
+        return -1.0;
+    }
+    long le1=shp.part(39).x()-shp.part(36).x();
+    long le2=shp.part(39).y()-shp.part(36).y();
+    double le=sqrt(le1*le1+le2*le2);
+    long da1=shp.part(41).x()-shp.part(37).x();
+    long da2=shp.part(41).y()-shp.part(37).y();
+    long db1=shp.part(40).x()-shp.part(38).x();
+    long db2=shp.part(40).y()-shp.part(38).y();
+    double da=sqrt(da1*da1+da2*da2);
+    double db=sqrt(db1*db1+db2*db2);
+    double k;
+    if(le<1){
+        std::cout << "eyes detect mistake" << std::endl;
+        return -1.0;
+    }
+    k=(da+db)/le;
+    return k;
+}
+
+double lk_ju(dlib::full_object_detection &shp) {
+    if(shp.num_parts()<68){
+        std::cout << "face model missing" << std::endl;
+        return -1.0;
+    }
+
+    long le1=shp.part(45).x()-shp.part(42).x();
+    long le2=shp.part(45).y()-shp.part(42).y();
+    double le=sqrt(le1*le1+le2*le2);
+    long da1=shp.part(47).x()-shp.part(43).x();
+    long da2=shp.part(47).y()-shp.part(43).y();
+    long db1=shp.part(46).x()-shp.part(44).x();
+    long db2=shp.part(46).y()-shp.part(44).y();
+    double da=sqrt(da1*da1+da2*da2);
+    double db=sqrt(db1*db1+db2*db2);
+    double k;
+
+    if(le<1){
+        std::cout << "eyes detect mistake" << std::endl;
+        return -1.0;
+    }
+    k=(da+db)/le;
+    return k;
 }

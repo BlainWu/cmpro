@@ -4,83 +4,34 @@
 #include <dlib/image_processing/render_face_detections.h>  
 #include <dlib/image_processing.h>
 #include <ctime>
-#include "soundpool.cpp"
-#include <SFML/Audio.hpp>
+//#include "soundpool.cpp"
+//#include <SFML/Audio.hpp>
+
+double m_ju(dlib::full_object_detection& shp);
+
+double rk_ju(dlib::full_object_detection& shp);
+
+double lk_ju(dlib::full_object_detection& shp);
+
+double nod_detect(dlib::full_object_detection& shp);
+
+std::vector<double> angle_detect(dlib::full_object_detection& shape);
 
 
-using namespace dlib;
+double K[9] = { 6.5308391993466671e+002, 0.0, 3.1950000000000000e+002, 0.0, 6.5308391993466671e+002, 2.3950000000000000e+002, 0.0, 0.0, 1.0 };
+double D[5] = { 7.0834633684407095e-002, 6.9140193737175351e-002, 0.0, 0.0, -1.3073460323689292e+000 };
+std::vector<cv::Point3d> Model3D={{-7.308957,0.913869,0.000000}, {-6.775290,-0.730814,-0.012799}, {-5.665918,-3.286078,1.022951}, {-5.011779,-4.876396,1.047961}, {-4.056931,-5.947019,1.636229}, {-1.833492,-7.056977,4.061275}, {0.000000,-7.415691,4.070434}, {1.833492,-7.056977,4.061275}, {4.056931,-5.947019,1.636229}, {5.011779,-4.876396,1.047961}, {5.665918,-3.286078,1.022951}, {6.775290,-0.730814,-0.012799}, {7.308957,0.913869,0.000000}, {5.311432,5.485328,3.987654}, {4.461908,6.189018,5.594410}, {3.550622,6.185143,5.712299}, {2.542231,5.862829,4.687939}, {1.789930,5.393625,4.413414}, {2.693583,5.018237,5.072837}, {3.530191,4.981603,4.937805}, {4.490323,5.186498,4.694397}, {-5.311432,5.485328,3.987654}, {-4.461908,6.189018,5.594410}, {-3.550622,6.185143,5.712299}, {-2.542231,5.862829,4.687939}, {-1.789930,5.393625,4.413414}, {-2.693583,5.018237,5.072837}, {-3.530191,4.981603,4.937805}, {-4.490323,5.186498,4.694397}, {1.330353,7.122144,6.903745}, {2.533424,7.878085,7.451034}, {4.861131,7.878672,6.601275}, {6.137002,7.271266,5.200823}, {6.825897,6.760612,4.402142}, {-1.330353,7.122144,6.903745}, {-2.533424,7.878085,7.451034}, {-4.861131,7.878672,6.601275}, {-6.137002,7.271266,5.200823}, {-6.825897,6.760612,4.402142}, {-2.774015,-2.080775,5.048531}, {-0.509714,-1.571179,6.566167}, {0.000000,-1.646444,6.704956}, {0.509714,-1.571179,6.566167}, {2.774015,-2.080775,5.048531}, {0.589441,-2.958597,6.109526}, {0.000000,-3.116408,6.097667}, {-0.589441,-2.958597,6.109526}, {-0.981972,4.554081,6.301271}, {-0.973987,1.916389,7.654050}, {-2.005628,1.409845,6.165652}, {-1.930245,0.424351,5.914376}, {-0.746313,0.348381,6.263227}, {0.000000,0.000000,6.763430}, {0.746313,0.348381,6.263227}, {1.930245,0.424351,5.914376}, {2.005628,1.409845,6.165652}, {0.973987,1.916389,7.654050}, {0.981972,4.554081,6.301271}};
+std::vector<cv::Point3d> object_pts={Model3D[33],Model3D[29],Model3D[34],Model3D[38],Model3D[13],Model3D[17],
+                                     Model3D[25],Model3D[21],Model3D[55],Model3D[49],Model3D[43],Model3D[39],
+                                     Model3D[45],Model3D[6]};
+std::vector<cv::Point3d> reprojectsrc={cv::Point3d(10.0, 10.0, 10.0),cv::Point3d(10.0, 10.0, -10.0),
+                                       cv::Point3d(10.0, -10.0, -10.0),cv::Point3d(10.0, -10.0, 10.0),
+                                       cv::Point3d(-10.0, 10.0, 10.0),cv::Point3d(-10.0, 10.0, -10.0),
+                                       cv::Point3d(-10.0, -10.0, -10.0),cv::Point3d(-10.0, -10.0, 10.0)};
 
-double m_ju(full_object_detection& shp){
-    long wit1=shp.part(48).x()-shp.part(54).x();
-    long wit2=shp.part(48).y()-shp.part(54).y();
-    double wit=sqrt(wit1*wit1+wit2*wit2);
-    long hei1=shp.part(51).x()-shp.part(57).x();
-    long hei2=shp.part(51).y()-shp.part(57).y();
-    double hei=sqrt(hei1*hei1+hei2*hei2);
-    return hei/wit;
-}
-
-double rk_ju(full_object_detection& shp){
-    if(shp.num_parts()<68){
-        std::cout << "face model missing" << std::endl;
-        return -1.0;
-    }
-    long le1=shp.part(39).x()-shp.part(36).x();
-    long le2=shp.part(39).y()-shp.part(36).y();
-    double le=sqrt(le1*le1+le2*le2);
-    long da1=shp.part(41).x()-shp.part(37).x();
-    long da2=shp.part(41).y()-shp.part(37).y();
-    long db1=shp.part(40).x()-shp.part(38).x();
-    long db2=shp.part(40).y()-shp.part(38).y();
-    double da=sqrt(da1*da1+da2*da2);
-    double db=sqrt(db1*db1+db2*db2);
-    double k;
-    if(le<1){
-        std::cout << "eyes detect mistake" << std::endl;
-        return -1.0;
-    }
-    k=(da+db)/le;
-    return k;
-}
-
-double lk_ju(full_object_detection& shp){
-    if(shp.num_parts()<68){
-        std::cout << "face model missing" << std::endl;
-        return -1.0;
-    }
-
-    long le1=shp.part(45).x()-shp.part(42).x();
-    long le2=shp.part(45).y()-shp.part(42).y();
-    double le=sqrt(le1*le1+le2*le2);
-    long da1=shp.part(47).x()-shp.part(43).x();
-    long da2=shp.part(47).y()-shp.part(43).y();
-    long db1=shp.part(46).x()-shp.part(44).x();
-    long db2=shp.part(46).y()-shp.part(44).y();
-    double da=sqrt(da1*da1+da2*da2);
-    double db=sqrt(db1*db1+db2*db2);
-    double k;
-
-    if(le<1){
-        std::cout << "eyes detect mistake" << std::endl;
-        return -1.0;
-    }
-
-    k=(da+db)/le;
-
-    return k;
-}
-
-double nod_detect(full_object_detection& shp){
-    long wit = shp.part(0).x()-shp.part(16).x();
-    long hei = shp.part(24).y()-shp.part(8).y();
-    long result = wit/hei;
-    return result;
-
-}
 
 int main()
 {
-    sdplayer sdp;
 
     std::ifstream fin;
     fin.open("../conf.dat");
@@ -168,9 +119,14 @@ int main()
     static  bool is_nod = false ;//是否在点头状态
     static bool is_yawn = false ;//是否在打哈欠
     //static bool is_eces = false; //当前帧是否处于「中度/重度疲劳延时」状态
+    static bool is_face_found;
     static double pt = 0.0;
     static double score = 0.0;
+
     static std::deque<double> escon;
+    std::vector<double> angled;
+    std::deque<double> anglept;
+    double angle;
 
 	try
 	{
@@ -182,9 +138,12 @@ int main()
 			return 1;
 		}
 
-		frontal_face_detector detector = get_frontal_face_detector();
-		shape_predictor pose_model;
-		deserialize("../shape_predictor_68_face_landmarks.dat") >> pose_model;
+		dlib::frontal_face_detector detector = dlib::get_frontal_face_detector();
+		dlib::shape_predictor pose_model;
+		dlib::deserialize("../shape_predictor_68_face_landmarks.dat") >> pose_model;
+
+
+
 
         std::cout << "initialized." << std::endl;
 
@@ -199,13 +158,14 @@ int main()
             temp=temp(cv::Rect(0, 0, WIN_WIDTH,WIN_HEIGHT));
             temp=temp(cv::Rect((int)std::max(0L,rfleft), (int)std::max(0L,rftop), (int)std::min((long)WIN_WIDTH-rfleft,
                     fright-fleft), (int)std::min((long)WIN_HEIGHT-rftop, fdown-ftop)));
-            cv_image<bgr_pixel> cimg(temp);
-            std::vector<rectangle> faces = detector(cimg);
-            full_object_detection sps;
+            dlib::cv_image<dlib::bgr_pixel> cimg(temp);
+            std::vector<dlib::rectangle> faces = detector(cimg);
+            dlib::full_object_detection sps;
 
 
             if(!faces.empty()){
                 //人脸识别成功
+                is_face_found=true;
                 sps=pose_model(cimg, faces[0]);
                 if(sps.num_parts() < 68){
                     std::cerr << "Wrong Matching" << std::endl;
@@ -215,6 +175,8 @@ int main()
                 //检测出人脸及特征点
                 double k1 = rk_ju(sps), k2 = lk_ju(sps), k,kp;
                 double m3 = m_ju(sps);
+                angled.clear();
+                angled=angle_detect(sps);
 
                 double nod_ju = nod_detect(sps);
                 //判断是否为点头
@@ -260,6 +222,20 @@ int main()
                     is_ecsd = true;
                     tc_rec = clock();
                 }
+
+                if(anglept.size()<6){
+                    anglept.push_back(angled[0]);
+                }
+                else{
+                    anglept.push_back(angled[0]);
+                    anglept.pop_front();
+                }
+                for(auto jd:anglept){
+                    angle+=jd;
+                }
+                angle /= (double)(anglept.size());
+
+
 
                 if(kp>JM_2 && is_ecsd){
                     stu=0;
@@ -355,7 +331,7 @@ int main()
             else{
                 //人脸识别失败
                 std::cout << "No faces found." << std::endl;
-
+                is_face_found=false;
                 //面部切割finalB(未识别)
                 fleft=0;
                 fright=WIN_WIDTH;
@@ -372,18 +348,28 @@ int main()
 
 
             if(IS_SHOWN_WIN_ON){
-                if(is_yawn) putText(showimg,"Yawning!!!",cv::Point(50,150),CV_FONT_NORMAL,1,cvScalar(178,35,35),1,1);
-                else  putText(showimg,"Normal",cv::Point(50,150),CV_FONT_NORMAL,1,cvScalar(255,255,255),1,1);
                 if(is_nod) putText(showimg,"Nodding head!!!",cv::Point(50,100),CV_FONT_NORMAL,1,cvScalar(178,35,35),1,1);
                 else  putText(showimg,"Normal",cv::Point(50,100),CV_FONT_NORMAL,1,cvScalar(255,255,255),1,1);
-
+                if(is_yawn) putText(showimg,"Yawning!!!",cv::Point(50,150),CV_FONT_NORMAL,1,cvScalar(178,35,35),1,1);
+                else  putText(showimg,"Normal",cv::Point(50,150),CV_FONT_NORMAL,1,cvScalar(255,255,255),1,1);
                 putText(showimg, shownum[stu], cv::Point(50,200), CV_FONT_NORMAL, 1, cvScalar(255,255,255),1,1);
+                if(is_face_found){
+                    std::ostringstream output;
+                    output << "X: " << std::to_string(angle);
+                    cv::putText(showimg, output.str(), cv::Point(50, 250), CV_FONT_NORMAL, 1, cvScalar(255,0,255),1,1);
+                    output.str("");
+                    output << "Y: " << std::to_string(angled[1]);
+                    cv::putText(showimg, output.str(), cv::Point(50, 280), CV_FONT_NORMAL, 1, cvScalar(255,0,255),1,1);
+                    output.str("");
+                    output << "Z: " << std::to_string(angled[2]);
+                    cv::putText(showimg, output.str(), cv::Point(50, 310), CV_FONT_NORMAL, 1, cvScalar(255,0,255),1,1);
+                }
                 imshow("cap", showimg);
             }
         }
         doutput.close();
     }
-    catch (serialization_error& e)
+    catch (dlib::serialization_error& e)
     {
         std::cout << std::endl << e.what() << std::endl;
     }
@@ -392,4 +378,117 @@ int main()
         std::cout << e.what() << std::endl;
     }
     return 0;
+}
+
+
+double m_ju(dlib::full_object_detection &shp) {
+    long wit1=shp.part(48).x()-shp.part(54).x();
+    long wit2=shp.part(48).y()-shp.part(54).y();
+    double wit=sqrt(wit1*wit1+wit2*wit2);
+    long hei1=shp.part(51).x()-shp.part(57).x();
+    long hei2=shp.part(51).y()-shp.part(57).y();
+    double hei=sqrt(hei1*hei1+hei2*hei2);
+    return hei/wit;
+}
+
+double rk_ju(dlib::full_object_detection &shp) {
+    if(shp.num_parts()<68){
+        std::cout << "face model missing" << std::endl;
+        return -1.0;
+    }
+    long le1=shp.part(39).x()-shp.part(36).x();
+    long le2=shp.part(39).y()-shp.part(36).y();
+    double le=sqrt(le1*le1+le2*le2);
+    long da1=shp.part(41).x()-shp.part(37).x();
+    long da2=shp.part(41).y()-shp.part(37).y();
+    long db1=shp.part(40).x()-shp.part(38).x();
+    long db2=shp.part(40).y()-shp.part(38).y();
+    double da=sqrt(da1*da1+da2*da2);
+    double db=sqrt(db1*db1+db2*db2);
+    double k;
+    if(le<1){
+        std::cout << "eyes detect mistake" << std::endl;
+        return -1.0;
+    }
+    k=(da+db)/le;
+    return k;
+}
+
+double lk_ju(dlib::full_object_detection &shp) {
+    if(shp.num_parts()<68){
+        std::cout << "face model missing" << std::endl;
+        return -1.0;
+    }
+
+    long le1=shp.part(45).x()-shp.part(42).x();
+    long le2=shp.part(45).y()-shp.part(42).y();
+    double le=sqrt(le1*le1+le2*le2);
+    long da1=shp.part(47).x()-shp.part(43).x();
+    long da2=shp.part(47).y()-shp.part(43).y();
+    long db1=shp.part(46).x()-shp.part(44).x();
+    long db2=shp.part(46).y()-shp.part(44).y();
+    double da=sqrt(da1*da1+da2*da2);
+    double db=sqrt(db1*db1+db2*db2);
+    double k;
+
+    if(le<1){
+        std::cout << "eyes detect mistake" << std::endl;
+        return -1.0;
+    }
+
+    k=(da+db)/le;
+
+    return k;
+}
+
+double nod_detect(dlib::full_object_detection &shp) {
+    long wit = shp.part(0).x()-shp.part(16).x();
+    long hei = shp.part(24).y()-shp.part(8).y();
+    long result = wit/hei;
+    return result;
+
+}
+
+std::vector<double> angle_detect(dlib::full_object_detection &shape) {
+
+    //result
+    cv::Mat rotation_vec;                           //3 x 1
+    cv::Mat rotation_mat;                           //3 x 3 R
+    cv::Mat translation_vec;                        //3 x 1 T
+    cv::Mat pose_mat = cv::Mat(3, 4, CV_64FC1);     //3 x 4 R | T
+    cv::Mat euler_angle = cv::Mat(3, 1, CV_64FC1);
+    //temp buf for decomposeProjectionMatrix()
+    cv::Mat out_intrinsics = cv::Mat(3, 3, CV_64FC1);
+    cv::Mat out_rotation = cv::Mat(3, 3, CV_64FC1);
+    cv::Mat out_translation = cv::Mat(3, 1, CV_64FC1);
+    cv::Mat cam_matrix = cv::Mat(3, 3, CV_64FC1, K);
+    cv::Mat dist_coeffs = cv::Mat(5, 1, CV_64FC1, D);
+
+    std::vector<cv::Point2d> reprojectdst;
+    reprojectdst.resize(8);
+
+    std::vector<cv::Point2d> image_pts;
+    image_pts.push_back(cv::Point2d(shape.part(17).x(), shape.part(17).y())); //#17 left brow left corner
+    image_pts.push_back(cv::Point2d(shape.part(21).x(), shape.part(21).y())); //#21 left brow right corner
+    image_pts.push_back(cv::Point2d(shape.part(22).x(), shape.part(22).y())); //#22 right brow left corner
+    image_pts.push_back(cv::Point2d(shape.part(26).x(), shape.part(26).y())); //#26 right brow right corner
+    image_pts.push_back(cv::Point2d(shape.part(36).x(), shape.part(36).y())); //#36 left eye left corner
+    image_pts.push_back(cv::Point2d(shape.part(39).x(), shape.part(39).y())); //#39 left eye right corner
+    image_pts.push_back(cv::Point2d(shape.part(42).x(), shape.part(42).y())); //#42 right eye left corner
+    image_pts.push_back(cv::Point2d(shape.part(45).x(), shape.part(45).y())); //#45 right eye right corner
+    image_pts.push_back(cv::Point2d(shape.part(31).x(), shape.part(31).y())); //#31 nose left corner
+    image_pts.push_back(cv::Point2d(shape.part(35).x(), shape.part(35).y())); //#35 nose right corner
+    image_pts.push_back(cv::Point2d(shape.part(48).x(), shape.part(48).y())); //#48 mouth left corner
+    image_pts.push_back(cv::Point2d(shape.part(54).x(), shape.part(54).y())); //#54 mouth right corner
+    image_pts.push_back(cv::Point2d(shape.part(57).x(), shape.part(57).y())); //#57 mouth central bottom corner
+    image_pts.push_back(cv::Point2d(shape.part(8).x(), shape.part(8).y()));   //#8 chin corner
+    //calculate
+    cv::solvePnP(object_pts, image_pts, cam_matrix, dist_coeffs, rotation_vec, translation_vec);
+    //reproject
+    cv::projectPoints(reprojectsrc, rotation_vec, translation_vec, cam_matrix, dist_coeffs, reprojectdst);
+    cv::Rodrigues(rotation_vec, rotation_mat);
+    cv::hconcat(rotation_mat, translation_vec, pose_mat);
+    cv::decomposeProjectionMatrix(pose_mat, out_intrinsics, out_rotation, out_translation, cv::noArray(), cv::noArray(), cv::noArray(), euler_angle);
+
+    return {euler_angle.at<double>(0),euler_angle.at<double>(1),euler_angle.at<double>(2)};
 }
