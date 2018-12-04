@@ -4,8 +4,8 @@
 #include <dlib/image_processing/render_face_detections.h>  
 #include <dlib/image_processing.h>
 #include <ctime>
-//#include "soundpool.cpp"
-//#include <SFML/Audio.hpp>
+#include "soundpool.cpp"
+#include <SFML/Audio.hpp>
 
 double m_ju(dlib::full_object_detection& shp);
 
@@ -32,6 +32,7 @@ std::vector<cv::Point3d> reprojectsrc={cv::Point3d(10.0, 10.0, 10.0),cv::Point3d
 
 int main()
 {
+
 
     std::ifstream fin;
     fin.open("../conf.dat");
@@ -108,6 +109,8 @@ int main()
     clock_t tc_rec = clock();
     clock_t tc_cur ;
 
+    clock_t sound_remote=clock();
+
     //面部切割过程量
     static long fleft = 0, fright = WIN_WIDTH, ftop = 0, fdown = WIN_HEIGHT;
     static long rfleft = 0, rftop = 0, dleft = 0, dtop = 0;
@@ -125,8 +128,10 @@ int main()
 
     static std::deque<double> escon;
     std::vector<double> angled;
-    std::deque<double> anglept;
-    double angle;
+    std::vector<std::deque<double> > anglept;
+    anglept.resize(3);
+    std::vector<double> angle;
+    angle.resize(3);
 
 	try
 	{
@@ -142,8 +147,8 @@ int main()
 		dlib::shape_predictor pose_model;
 		dlib::deserialize("../shape_predictor_68_face_landmarks.dat") >> pose_model;
 
-
-
+		soundload();
+        soundplay(0);
 
         std::cout << "initialized." << std::endl;
 
@@ -222,18 +227,20 @@ int main()
                     is_ecsd = true;
                     tc_rec = clock();
                 }
+                for(int i=0;i<3;++i){
+                    if(anglept[i].size()<6){
+                        anglept[i].push_back(angled[i]);
+                    }
+                    else{
+                        anglept[i].push_back(angled[i]);
+                        anglept[i].pop_front();
+                    }
+                    for(auto jd:anglept[i]){
+                        angle[i]+=jd;
+                    }
+                    angle[i] /= (double)(anglept[i].size());
+                }
 
-                if(anglept.size()<6){
-                    anglept.push_back(angled[0]);
-                }
-                else{
-                    anglept.push_back(angled[0]);
-                    anglept.pop_front();
-                }
-                for(auto jd:anglept){
-                    angle+=jd;
-                }
-                angle /= (double)(anglept.size());
 
 
 
@@ -283,6 +290,21 @@ int main()
                 }
 
 
+                while(clock()-sound_remote>2000000){
+                    sound_remote=clock();
+                    if(is_nod){
+                        soundplay(4);
+                        break;
+                    }
+                    if(is_yawn){
+                        soundplay(5);
+                        break;
+                    }
+                    if(stu==1 || stu==2 || stu==3){
+                        soundplay(stu);
+                        break;
+                    }
+                }
 
                 //面部切割finalA(识别)
                 fleft=sps.part(0).x();
@@ -355,13 +377,13 @@ int main()
                 putText(showimg, shownum[stu], cv::Point(50,200), CV_FONT_NORMAL, 1, cvScalar(255,255,255),1,1);
                 if(is_face_found){
                     std::ostringstream output;
-                    output << "X: " << std::to_string(angle);
+                    output << "X: " << std::to_string(angle[0]);
                     cv::putText(showimg, output.str(), cv::Point(50, 250), CV_FONT_NORMAL, 1, cvScalar(255,0,255),1,1);
                     output.str("");
-                    output << "Y: " << std::to_string(angled[1]);
+                    output << "Y: " << std::to_string(angle[1]);
                     cv::putText(showimg, output.str(), cv::Point(50, 280), CV_FONT_NORMAL, 1, cvScalar(255,0,255),1,1);
                     output.str("");
-                    output << "Z: " << std::to_string(angled[2]);
+                    output << "Z: " << std::to_string(angle[2]);
                     cv::putText(showimg, output.str(), cv::Point(50, 310), CV_FONT_NORMAL, 1, cvScalar(255,0,255),1,1);
                 }
                 imshow("cap", showimg);
