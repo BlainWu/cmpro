@@ -31,6 +31,5 @@ void soundload(){
 }
 void soundplay(int index){
     sd[index].play();
-    std::cout << "played" <<std::endl;
 }
 
