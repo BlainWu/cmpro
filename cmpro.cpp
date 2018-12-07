@@ -13,6 +13,7 @@ double m_ju(dlib::full_object_detection& shp);
 double rk_ju(dlib::full_object_detection& shp);
 
 double lk_ju(dlib::full_object_detection& shp);
+
 std::vector<double> angle_detect(dlib::full_object_detection& shape);
 
 int main()
@@ -167,9 +168,6 @@ int main()
                 double m3 = m_ju(sps);
                 angled.clear();
                 angled=angle_detect(sps);
-
-
-
 
                 if(kst == 1){
                     tk_cur = clock();
