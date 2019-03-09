@@ -1,7 +1,3 @@
-//
-// Created by kanae on 2/14/19.
-//
-
 #include "showing_window.h"
 
 void ShowingWindow::init() {

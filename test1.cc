@@ -2,7 +2,6 @@
 #ifndef CMPRO_MAIN_EXE
 #define CMPRO_MAIN_EXE
 
-//#include "detection_procession.cc"
 #include "detection_procession.h"
 int main(){
     DetectionProcession dpmain;

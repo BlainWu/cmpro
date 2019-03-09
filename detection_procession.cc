@@ -36,6 +36,12 @@ DetectionProcession::DetectionProcession() {
 
     score = 0;
     state = 0;
+    is_loop_continue = true;
+
+    rfleft = 0;
+    rftop = 0;
+    area_width = WIN_WIDTH;
+    area_height = WIN_HEIGHT;
 }
 
 
@@ -55,7 +61,7 @@ int DetectionProcession::loop_processing() {
 
         std::cout << "initialized." << std::endl;
 
-        while(cv::waitKey(0)!='q' && is_loop_continue){
+        while(cv::waitKey(10)!='q' && is_loop_continue){
             cv::Mat processing_image;
             cap >> processing_image;
             cv::resize(processing_image, processing_image, cv::Size(WIN_WIDTH,WIN_HEIGHT), 0, 0, CV_INTER_LINEAR); //resize image to suitable size
@@ -67,9 +73,11 @@ int DetectionProcession::loop_processing() {
 
             clock_weight = clock();
             clock_time = clock();
-            ShapeProcessingClass shape_processing(sps);  //模型处理实例化
-            if(shape_processing.is_updated){
+
+
+            if(sps.num_parts()>=68){
                 //找到人脸
+                ShapeProcessingClass shape_processing(sps);  //模型处理实例化
                 state = 0;
                 period_weight = clock() - clock_weight;
                 clock_weight = clock();
@@ -108,9 +116,9 @@ int DetectionProcession::loop_processing() {
                 area_height = WIN_HEIGHT;
             }
 
-            std::cout << ctmsg[state];
+            std::cout << ctmsg[state] << std::endl;
 
-
+            imshow("cap3",processing_image);
         }
     }
     catch (dlib::serialization_error& e)

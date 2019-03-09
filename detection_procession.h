@@ -22,7 +22,7 @@ private:
 
 
     //-----------------------------------------------------------------
-    bool is_loop_continue = true;
+    bool is_loop_continue ;
 
     //state 疲劳状态:0未识别，1重度，2中度，3轻度，4正常，5警告响应
     int state;

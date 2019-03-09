@@ -6,9 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/Users/kanae/Desktop/cmpro/shape_processing.cc
+/Users/kanae/Desktop/cmpro/detection_procession.cc
+detection_procession.h
+/Users/kanae/Desktop/cmpro/detection_procession.h
+
+/Users/kanae/Desktop/cmpro/detection_procession.h
+dlib/opencv.h
+-
+opencv2/opencv.hpp
+-
+dlib/image_processing/frontal_face_detector.h
+-
+dlib/image_processing/render_face_detections.h
+-
+dlib/image_processing.h
+-
+thread
+-
 shape_processing.h
 /Users/kanae/Desktop/cmpro/shape_processing.h
+showing_window.h
+/Users/kanae/Desktop/cmpro/showing_window.h
 
 /Users/kanae/Desktop/cmpro/shape_processing.h
 dlib/opencv.h
@@ -21,10 +39,6 @@ dlib/image_processing/render_face_detections.h
 -
 dlib/image_processing.h
 -
-
-/Users/kanae/Desktop/cmpro/showing_window.cc
-showing_window.h
-/Users/kanae/Desktop/cmpro/showing_window.h
 
 /Users/kanae/Desktop/cmpro/showing_window.h
 opencv2/opencv.hpp
@@ -8307,8 +8321,6 @@ kdtree_index.h
 /usr/local/include/opencv2/flann/kdtree_index.h
 kmeans_index.h
 /usr/local/include/opencv2/flann/kmeans_index.h
-
-/usr/local/include/opencv2/flann/config.h
 
 /usr/local/include/opencv2/flann/defines.h
 config.h
