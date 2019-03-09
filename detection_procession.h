@@ -1,5 +1,5 @@
-//#ifndef CMPRO_DETECTION_PROCESSION_H
-//#define CMPRO_DETECTION_PROCESSION_H
+#ifndef CMPRO_DETECTION_PROCESSION_H
+#define CMPRO_DETECTION_PROCESSION_H
 
 #include <dlib/opencv.h>
 #include <opencv2/opencv.hpp>
@@ -72,5 +72,5 @@ private:
 
 };
 
-//#endif //CMPRO_DETECTION_PROCESSION_H
+#endif //CMPRO_DETECTION_PROCESSION_H
 
