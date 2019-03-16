@@ -6,7 +6,7 @@
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/image_processing/render_face_detections.h>
 #include <dlib/image_processing.h>
-#include <thread>
+#include <pthread.h>
 
 #include "shape_processing.h"
 #include "showing_window.h"
@@ -16,19 +16,25 @@ class DetectionProcession {
 public:
     DetectionProcession();
 
-    int loop_processing();
+    void loop_processing();
+
+    bool is_loop_continue ;
 private:
 
-
-
+    dlib::frontal_face_detector detector;
+    dlib::shape_predictor pose_model;
     //-----------------------------------------------------------------
-    bool is_loop_continue ;
+    void handle(void);
+    static void* handle_pth(void*);
+    void lanch_handle();
 
-    //state 疲劳状态:0未识别，1重度，2中度，3轻度，4正常，5警告响应
+    //state 疲劳状态:0未识别，1重度，2中度，3轻度，4正常，5警告广播
     int state;
 
+    cv::Mat showing_image;
 
-    int rfleft, rftop, area_width, area_height;
+    long rfleft, rftop, area_width, area_height;
+
 
     double score;
 

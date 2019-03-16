@@ -7,6 +7,7 @@ ShapeProcessingClass::ShapeProcessingClass(dlib::full_object_detection& shape_in
         is_updated = true;
         eye_value = (right_eye_value + left_eye_value) * 0.5;
         is_eye_normal = true;
+        DimensionCalculation();
     }
     else{
         std::cerr << "Initializetion Failure Error" << std::endl;
@@ -15,18 +16,18 @@ ShapeProcessingClass::ShapeProcessingClass(dlib::full_object_detection& shape_in
 }
 
 void ShapeProcessingClass::DimensionCalculation() {
-    int shape_differ_right;
-    int shape_differ_down;
+    long shape_differ_right=0;
+    long shape_differ_down=0;
     if(is_updated){
-        shape_differ_left=(int)detected_shape.part(0).x();
-        shape_differ_right=(int)detected_shape.part(16).x();
-        shape_differ_top=(int)std::min(detected_shape.part(19).y(),detected_shape.part(24).y());
-        shape_differ_down=(int)detected_shape.part(9).y();
+        shape_differ_left=detected_shape.part(0).x();
+        shape_differ_right=detected_shape.part(16).x();
+        shape_differ_top=std::min(detected_shape.part(19).y(),detected_shape.part(24).y());
+        shape_differ_down=detected_shape.part(9).y();
         for(unsigned long i=1;i<27;i++){
-            shape_differ_left=std::min(shape_differ_left,(int)detected_shape.part(i).x());
-            shape_differ_right=std::max(shape_differ_right,(int)detected_shape.part(i).x());
-            shape_differ_top=std::min(shape_differ_top,(int)detected_shape.part(i).y());
-            shape_differ_down=std::max(shape_differ_down,(int)detected_shape.part(i).y());
+            shape_differ_left=std::min(shape_differ_left,detected_shape.part(i).x());
+            shape_differ_right=std::max(shape_differ_right,detected_shape.part(i).x());
+            shape_differ_top=std::min(shape_differ_top,detected_shape.part(i).y());
+            shape_differ_down=std::max(shape_differ_down,detected_shape.part(i).y());
         }
         shape_width = shape_differ_right - shape_differ_left;
         shape_height = shape_differ_down - shape_differ_top;
