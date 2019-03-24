@@ -15,7 +15,7 @@ find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 #include_directories( ${SFML_INCLUDE_DIRS} )
 
-add_executable( cmpro starter.cc detection_procession.cc detection_procession.h shape_processing.cc shape_processing.h showing_window.cc showing_window.h)
+add_executable( cmpro starter.cc shape_processing.cc shape_processing.h showing_window.cc showing_window.h)
 
 
 # 链接OpenCV库
