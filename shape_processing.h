@@ -25,10 +25,10 @@ public:
 
     bool is_updated;
 
-    int shape_differ_left;
-    int shape_differ_top;
-    int shape_width;
-    int shape_height;
+    long shape_differ_left;
+    long shape_differ_top;
+    long shape_width;
+    long shape_height;
 
     void DimensionCalculation();
 
