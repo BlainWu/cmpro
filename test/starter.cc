@@ -72,6 +72,8 @@ bool IS_DEBUG_WIN_ON ;      //是否显示Debug窗体
 bool IS_DEBUG_WIN_DRAWED ;  //是否在Debug窗体上显示特征点（需要Debug窗体显示）
 bool IS_SHOWN_WIN_ON ;       //是否显示展示窗体
 
+std::string stin;
+
 //各种状态的显示消息
 const std::vector<std::string> ctmsg = {"ERROR","3 重度","2 中度","1 轻度","0 正常","状态异常"};
 const std::vector<std::string> show_msg = {" No-Matching","degree-3","degree-2 ","degree-1","degree-0","Alarming"};
@@ -89,12 +91,14 @@ void loop_initialize(){
     const int din_num = 8;
 
     std::ifstream fin;
+
     fin.open("../process_configure.dat");
     std::vector<int> pin;
     pin.resize(pin_num);
     for(int i=0;i<pin_num;++i){
         fin >> pin[i];
     }
+    fin >> stin;
     WIN_WIDTH = pin[0];
     WIN_HEIGHT = pin[1];
     MARGIN_LEFT = pin[2];
@@ -102,7 +106,7 @@ void loop_initialize(){
     MARGIN_RIGHT = pin[4];
     MARGIN_DOWN = pin[5];
     fin.close();
-    fin.open("../judgement_configure.dat");
+    fin.open("../rate_configure.dat");
     std::vector<double> din;
     din.resize(din_num);
     for(int i=0;i<din_num;++i){
@@ -133,7 +137,7 @@ void loop_initialize(){
 void handle(){
     cv:: Mat processing_image;
     processing_image = showing_image.clone();
-    cv::resize(processing_image, processing_image, cv::Size(WIN_WIDTH,WIN_HEIGHT), 0, 0, CV_INTER_LINEAR); //resize image to suitable size
+    cv::resize(processing_image, processing_image, cv::Size(WIN_WIDTH,WIN_HEIGHT), 0, 0, cv::INTER_LINEAR); //resize image to suitable size
     processing_image=processing_image(cv::Rect(std::max(0L,rfleft), std::max(0L,rftop),
                                                std::min(WIN_WIDTH-rfleft, area_width), std::min(WIN_HEIGHT-rftop, area_height)));
     dlib::cv_image<dlib::bgr_pixel> cimg(processing_image);
@@ -192,7 +196,7 @@ void handle(){
         area_height = WIN_HEIGHT;
 
     }
-    is_thread_on = false;
+    is_thread_on = f8alse;
 }
 
 void loop_process(){
@@ -203,7 +207,14 @@ void loop_process(){
         //model load (time consuming)
         dlib::deserialize("../shape_predictor_68_face_landmarks.dat") >> pose_model;
         //cap initialization
-        cv::VideoCapture cap("../tst2.mp4");
+        cv::VideoCapture cap;
+        if(stin == "0"){
+            cap.open(0);
+        }
+        else{
+            cap.open("../videoraw/" + stin + ".mp4");
+        }
+
         if (!cap.isOpened()) {
             std::cerr << "Unable to connect to camera" << std::endl;
             return;
@@ -224,7 +235,7 @@ void loop_process(){
             }
 
 
-            putText(showing_image,show_msg[state],cv::Point(10,60), CV_FONT_NORMAL, 1, cvScalar(0,0,255),1,1);
+            putText(showing_image,show_msg[state],cv::Point(10,60), cv::QT_FONT_NORMAL, 1, cvScalar(0,0,255),1,1);
             //std::cout << ctmsg[state] << std::endl;
 
             imshow("cap",showing_image);
