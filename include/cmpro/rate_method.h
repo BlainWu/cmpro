@@ -9,10 +9,14 @@
 #include <pthread.h>
 
 #include "configure.h"
-
+#include "shape_processing.h"
 class RateMethod {
 public:
     RateMethod();
+
+    bool is_loop_continue;
+
+    void loop_process();
 private:
     Configure conf;
 

@@ -24,6 +24,8 @@ public:
     double SCORE_TOP;
     double SCORE_MAX;
 
+    double PERIOD_AVERAGE;
+    double PERIOD_SERIOUS;
 //框定人脸区域上下左右预留出来的误差范围
 //enlarged length in face selecting process
     int MARGIN_LEFT ;
@@ -38,7 +40,7 @@ public:
     int WIN_HEIGHT ;
 private:
     const int pin_num = 6;
-    const int din_num = 6;
+    const int din_num = 8;
 };
 
 

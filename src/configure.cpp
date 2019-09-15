@@ -6,7 +6,7 @@
 
 void Configure::rate_conf() {
     std::ifstream fin;
-    fin.open("../rate_configure.dat");
+    fin.open("../configure/rate_configure.dat");
     std::vector<double> din;
     din.resize(din_num);
     for(int i=0;i<din_num;++i){
@@ -18,12 +18,14 @@ void Configure::rate_conf() {
     MOUTH_TOP = din[3];
     SCORE_TOP = din[4];
     SCORE_MAX = din[5];
+    PERIOD_AVERAGE = din[6];
+    PERIOD_SERIOUS = din[7];
     fin.close();
 }
 
 void Configure::process_conf() {
     std::ifstream fin;
-    fin.open("../process_configure.dat");
+    fin.open("../configure/process_configure.dat");
     std::vector<int> pin;
     pin.resize(pin_num);
     for(int i=0;i<pin_num;++i){

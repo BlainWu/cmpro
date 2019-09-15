@@ -30,7 +30,7 @@ include_directories(                              # 头文件的搜索目录
         )
 link_directories(${TENSORFLOW_SOURCE_DIR}/bazel-bin/tensorflow)
 add_executable(cmpro_rate
-        test/cvmtst.cpp
+        test/cmpro_rate.cpp
         include/cmpro/common_include.h
         include/cmpro/shape_processing.h src/shape_processing.cpp
         include/cmpro/rate_method.h  src/rate_method.cpp
