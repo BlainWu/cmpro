@@ -32,8 +32,8 @@ public:
 
     void DimensionCalculation();
 
-private:
     dlib::full_object_detection detected_shape;
+private:
 
     bool RightEyeValueCalculate();
     bool LeftEyeValueCalculate();

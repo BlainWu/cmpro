@@ -34,6 +34,8 @@ private:
     //position and size of the selected area
     long rfleft, rftop, area_width, area_height;
 
+    unsigned long duration;
+
     double score;
     clock_t clock_weight ;
     clock_t clock_time ;

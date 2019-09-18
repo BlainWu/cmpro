@@ -12,6 +12,7 @@ RateMethod::RateMethod() {
     is_loop_continue = true;
     state = 0;
     score = 0;
+    duration = 0;
     try{
         dlib::deserialize("../resource/shape_predictor_68_face_landmarks.dat") >> pose_model;
     }
@@ -66,11 +67,12 @@ void RateMethod::loop_process(bool is_recorded) {
                 //if faces points found
                 ShapeProcessingClass shape_processing(sps);  //模型处理实例化
                 state = 0;
+                duration = clock() - clock_weight;
+                clock_weight = clock();
 
-                score += (0.5 - shape_processing.eye_value) * (clock() - clock_weight) / 1000;
+                score += (0.5 - shape_processing.eye_value) * (duration) / 1000;
                 score = std::max(0.0, score);
                 score = std::min(conf.SCORE_MAX, score);
-                clock_weight = clock();
                 //Sub 状态判定
                 //fatigue degree judgement
                 if (score > conf.SCORE_TOP) {
@@ -100,8 +102,12 @@ void RateMethod::loop_process(bool is_recorded) {
                 if(is_recorded){
                     std::ofstream fout;
                     fout.open("../dataout/"+conf.stin+".txt",std::ios::out);
-                    fout << 
-
+                    fout << state << ',';
+                    for(int i=0;i<68;++i){
+                        fout << shape_processing.detected_shape.part(i).x() << ','
+                             << shape_processing.detected_shape.part(i).y() << ',';
+                    }
+                    fout << duration << std::endl;
                 }
 
 

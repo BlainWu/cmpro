@@ -36,6 +36,13 @@ add_executable(cmpro_rate
         include/cmpro/rate_method.h  src/rate_method.cpp
         include/cmpro/configure.h src/configure.cpp
         )
+add_executable(cmpro_rec
+        test/cmpro_rate.cpp
+        include/cmpro/common_include.h
+        include/cmpro/shape_processing.h src/shape_processing.cpp
+        include/cmpro/rate_method.h  src/rate_method.cpp
+        include/cmpro/configure.h src/configure.cpp
+        )
 add_executable(cmpro_dpl
         test/cvmtst.cpp
         include/cmpro/common_include.h
@@ -54,13 +61,19 @@ target_link_libraries( cmpro_rate sfml-graphics sfml-audio)
 target_link_libraries( cmpro_rate
         Eigen3::Eigen
         ${OpenCV_LIBS}
+        dlib::dlib
         )
-target_link_libraries( cmpro_rate dlib::dlib )
+
+target_link_libraries( cmpro_rec
+        Eigen3::Eigen
+        ${OpenCV_LIBS}
+        dlib::dlib
+        )
 
 target_link_libraries( cmpro_dpl sfml-graphics sfml-audio)
 target_link_libraries( cmpro_dpl tensorflow_cc tensorflow_framework)
 target_link_libraries( cmpro_dpl
         Eigen3::Eigen
         ${OpenCV_LIBS}
+        dlib::dlib
         )
-target_link_libraries( cmpro_dpl dlib::dlib )
