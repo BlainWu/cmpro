@@ -14,7 +14,7 @@ The cmpro Project
     4. install dlib
     5. install SFML
     6. upgrade cmake
-    7. upgrade gcc
+    7. upgrade g++
     8. install eigen3 (from source)
     9. install bazel 0.26.1 (from source/exact version!)
 2. tensorflow
