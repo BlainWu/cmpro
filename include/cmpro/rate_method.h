@@ -1,6 +1,7 @@
 #ifndef CMPRO_RATE_METHOD_H
 #define CMPRO_RATE_METHOD_H
 
+#include "common_include.h"
 #include <dlib/opencv.h>
 #include <opencv2/opencv.hpp>
 #include <dlib/image_processing/frontal_face_detector.h>
@@ -16,7 +17,7 @@ public:
 
     bool is_loop_continue;
 
-    void loop_process();
+    void loop_process(bool is_recorded);
 private:
     Configure conf;
 

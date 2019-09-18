@@ -1,7 +1,3 @@
-//
-// Created by kanae on 2019-09-10.
-//
-
 #include "../include/cmpro/rate_method.h"
 
 RateMethod::RateMethod() {
@@ -29,7 +25,7 @@ RateMethod::RateMethod() {
     }
 }
 
-void RateMethod::loop_process() {
+void RateMethod::loop_process(bool is_recorded) {
     try{
         //cap initialization
         cv::VideoCapture cap;
@@ -100,6 +96,14 @@ void RateMethod::loop_process() {
                 rftop += shape_processing.shape_differ_top - conf.MARGIN_TOP;
                 area_width = shape_processing.shape_width + conf.MARGIN_LEFT + conf.MARGIN_RIGHT;
                 area_height = shape_processing.shape_height + conf.MARGIN_TOP + conf.MARGIN_DOWN;
+
+                if(is_recorded){
+                    std::ofstream fout;
+                    fout.open("../dataout/"+conf.stin+".txt",std::ios::out);
+                    fout << 
+
+                }
+
 
                 putText(showing_image, show_msg[state], cv::Point(10, 60), cv::QT_FONT_NORMAL, 1, cvScalar(0, 0, 255),
                         1, 1);

@@ -5,7 +5,7 @@
 
 int main(){
     RateMethod rate_method;
-    rate_method.loop_process();
+    rate_method.loop_process(false);
     return 0;
 }
 
