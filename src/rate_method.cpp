@@ -27,6 +27,8 @@ RateMethod::RateMethod() {
 }
 
 void RateMethod::loop_process(bool is_recorded) {
+    std::ofstream fout;
+    fout.open("../dataout/"+conf.stin+".txt");
     try{
         //cap initialization
         cv::VideoCapture cap;
@@ -42,10 +44,11 @@ void RateMethod::loop_process(bool is_recorded) {
             return;
         }
         //ShowingWindow showing_window(&cap);
-
+        clock_weight = clock();
+        clock_time = clock();
         std::cout << "initialized." << std::endl;
 
-        while(cv::waitKey(10)!='q' && is_loop_continue) {
+        while(cv::waitKey(10)!='q' && is_loop_continue && cap.isOpened()) {
             cap >> showing_image;
             cv::Mat processing_image;
             processing_image = showing_image.clone();
@@ -58,13 +61,16 @@ void RateMethod::loop_process(bool is_recorded) {
             std::vector<dlib::rectangle> faces = detector(cimg);
             dlib::full_object_detection sps;
 
-            clock_weight = clock();
-            clock_time = clock();
 
-            sps = pose_model(cimg, faces[0]);
 
-            if (sps.num_parts() >= 68) {
+
+            if (!faces.empty()) {
                 //if faces points found
+                sps = pose_model(cimg, faces[0]);
+                if(sps.num_parts() < 68){
+                    std::cerr << "extraction error" << std::endl;
+                    return;
+                }
                 ShapeProcessingClass shape_processing(sps);  //模型处理实例化
                 state = 0;
                 duration = clock() - clock_weight;
@@ -82,10 +88,10 @@ void RateMethod::loop_process(bool is_recorded) {
                 }
 
                 if (shape_processing.eye_value < conf.RATE_BOTTOM) {
-                    if ((clock() - clock_time) / 1000.0 > conf.PERIOD_AVERAGE) {
+                    if ((clock() - clock_time) / 1000000.0 > conf.PERIOD_AVERAGE) {
                         state = 2;
                     }
-                    if ((clock() - clock_time) / 1000.0 > conf.PERIOD_SERIOUS) {
+                    if ((clock() - clock_time) / 1000000.0 > conf.PERIOD_SERIOUS) {
                         state = 1;
                     }
                 } else {
@@ -100,12 +106,11 @@ void RateMethod::loop_process(bool is_recorded) {
                 area_height = shape_processing.shape_height + conf.MARGIN_TOP + conf.MARGIN_DOWN;
 
                 if(is_recorded){
-                    std::ofstream fout;
-                    fout.open("../dataout/"+conf.stin+".txt",std::ios::out);
+
                     fout << state << ',';
                     for(int i=0;i<68;++i){
-                        fout << shape_processing.detected_shape.part(i).x() << ','
-                             << shape_processing.detected_shape.part(i).y() << ',';
+                        fout << shape_processing.detected_shape.part(i).x()+rfleft << ','
+                             << shape_processing.detected_shape.part(i).y()+rftop << ',';
                     }
                     fout << duration << std::endl;
                 }
@@ -113,9 +118,24 @@ void RateMethod::loop_process(bool is_recorded) {
 
                 putText(showing_image, show_msg[state], cv::Point(10, 60), cv::QT_FONT_NORMAL, 1, cvScalar(0, 0, 255),
                         1, 1);
-                std::cout << ctmsg[state] << std::endl;
+                std::cout << ctmsg[state] << ',' << duration << std::endl;
 
                 imshow("cap", showing_image);
+            }
+            else{
+                putText(showing_image, show_msg[0], cv::Point(10, 60), cv::QT_FONT_NORMAL, 1, cvScalar(0, 0, 255),
+                        1, 1);
+                duration = clock() - clock_weight;
+                std::cout << ctmsg[0] << ',' << duration << std::endl;
+                rfleft = 0;
+                rftop = 0;
+                area_width = conf.WIN_WIDTH;
+                area_height = conf.WIN_HEIGHT;
+                imshow("cap", showing_image);
+            }
+            if (!cap.isOpened()) {
+                std::cout << "Video termainated." << std::endl;
+                break;
             }
         }
 
@@ -128,4 +148,5 @@ void RateMethod::loop_process(bool is_recorded) {
     {
         std::cout << e.what() << std::endl;
     }
+    fout.close();
 }

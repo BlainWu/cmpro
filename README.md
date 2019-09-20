@@ -5,6 +5,9 @@ The cmpro Project
 3. model: model
 4. src: source files
 5. test: test files
+6. bin : ececuable file
+7. third_party : python program (deep learning)
+8. resource : resource file
 
 - Environment build （the deep_learning pack）
 1. package dependancy (tested on MacOS Mojave 10.14)

@@ -37,14 +37,14 @@ add_executable(cmpro_rate
         include/cmpro/configure.h src/configure.cpp
         )
 add_executable(cmpro_rec
-        test/cmpro_rate.cpp
+        test/cmpro_record.cpp
         include/cmpro/common_include.h
         include/cmpro/shape_processing.h src/shape_processing.cpp
         include/cmpro/rate_method.h  src/rate_method.cpp
         include/cmpro/configure.h src/configure.cpp
         )
 add_executable(cmpro_dpl
-        test/cvmtst.cpp
+        test/cmpro_dpl.cpp
         include/cmpro/common_include.h
         include/cmpro/shape_processing.h src/shape_processing.cpp
         include/cmpro/learning_method.h  src/learning_method.cpp
