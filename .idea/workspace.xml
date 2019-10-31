@@ -3,8 +3,8 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="cmpro" targetName="cmpro_dpl" />
-      <config projectName="cmpro" targetName="cmpro_rate" />
       <config projectName="cmpro" targetName="cmpro_rec" />
+      <config projectName="cmpro" targetName="cmpro_rate" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -13,12 +13,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13a5ff3e-c4d8-4c22-a3cf-907b3326a7f7" name="Default Changelist" comment="bugs fixed">
+    <list default="true" id="13a5ff3e-c4d8-4c22-a3cf-907b3326a7f7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/cmpro/configure.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/cmpro/configure.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/configure.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/configure.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/learning_method.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/learning_method.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rate_method.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/rate_method.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/cmpro/common_include.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/cmpro/common_include.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,10 +36,19 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="OCResolveContextSettings">
+    <option name="configuration" value="0-cmpro_rec" />
+  </component>
   <component name="ProjectId" id="1R2BFHgPrsKrh0a19XzZJ7na73t" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/include/cmpro" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -71,6 +78,11 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="CMake Application.cmpro_dpl" />
+      <item itemvalue="CMake Application.cmpro_rate" />
+      <item itemvalue="CMake Application.cmpro_rec" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -90,7 +102,9 @@
       <workItem from="1568962777614" duration="504000" />
       <workItem from="1569676277450" duration="3217000" />
       <workItem from="1569726857998" duration="800000" />
-      <workItem from="1572528687395" duration="2990000" />
+      <workItem from="1572528687395" duration="3872000" />
+      <workItem from="1572533215509" duration="22000" />
+      <workItem from="1572533410864" duration="1714000" />
     </task>
     <task id="LOCAL-00001" summary="bugs fixed">
       <created>1568962740704</created>
@@ -99,7 +113,14 @@
       <option name="project" value="LOCAL" />
       <updated>1568962740704</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="configure rearrange">
+      <created>1572531961083</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1572531961083</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,7 +154,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="bugs fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugs fixed" />
+    <MESSAGE value="configure rearrange" />
+    <option name="LAST_COMMIT_MESSAGE" value="configure rearrange" />
   </component>
 </project>

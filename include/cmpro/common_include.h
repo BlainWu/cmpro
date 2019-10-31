@@ -1,7 +1,3 @@
-//
-// Created by kanae on 2019-09-10.
-//
-
 #ifndef CMPRO_COMMON_INCLUDE_H
 #define CMPRO_COMMON_INCLUDE_H
 

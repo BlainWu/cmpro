@@ -42,6 +42,7 @@ add_executable(cmpro_rec
         include/cmpro/shape_processing.h src/shape_processing.cpp
         include/cmpro/rate_method.h  src/rate_method.cpp
         include/cmpro/configure.h src/configure.cpp
+        include/cmpro/coordinate_convert.h src/coordinate_convert.cpp
         )
 add_executable(cmpro_dpl
         test/cmpro_dpl.cpp
