@@ -1,0 +1,16 @@
+%YAML:1.0
+window_width: 480
+window_height: 360
+margin_left: 10
+margin_right: 10
+margin_top: 10
+margin_down: 10
+video_path: "day2"
+rate_top: 0.629
+rate_bottom: 0.45
+mouth_top: 0.5
+angle_judgement: 36
+score_top: 350
+score_max: 500
+period_average: 2.5
+period_serious: 5

@@ -13,15 +13,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13a5ff3e-c4d8-4c22-a3cf-907b3326a7f7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/cmpro_rec" beforeDir="false" afterPath="$PROJECT_DIR$/bin/cmpro_rec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdpool/0.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdpool/1.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdpool/2.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdpool/3.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdpool/4.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdpool/5.wav" beforeDir="false" />
+    <list default="true" id="13a5ff3e-c4d8-4c22-a3cf-907b3326a7f7" name="Default Changelist" comment="bugs fixed">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/cmpro/configure.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/cmpro/configure.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/configure.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/configure.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/learning_method.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/learning_method.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rate_method.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/rate_method.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,6 +41,7 @@
   <component name="ProjectId" id="1R2BFHgPrsKrh0a19XzZJ7na73t" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -92,7 +90,7 @@
       <workItem from="1568962777614" duration="504000" />
       <workItem from="1569676277450" duration="3217000" />
       <workItem from="1569726857998" duration="800000" />
-      <workItem from="1572528687395" duration="344000" />
+      <workItem from="1572528687395" duration="2990000" />
     </task>
     <task id="LOCAL-00001" summary="bugs fixed">
       <created>1568962740704</created>

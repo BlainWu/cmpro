@@ -6,14 +6,10 @@
 #define CMPRO_CONFIGURE_H
 
 #include "common_include.h"
-
+#include <opencv2/core.hpp>
 class Configure {
 public:
-
-    void rate_conf();
-    void process_conf();
-
-
+    Configure();
     std::string stin;
 
     double RATE_TOP;
@@ -26,6 +22,7 @@ public:
 
     double PERIOD_AVERAGE;
     double PERIOD_SERIOUS;
+
 //框定人脸区域上下左右预留出来的误差范围
 //enlarged length in face selecting process
     int MARGIN_LEFT ;
@@ -39,8 +36,8 @@ public:
     int WIN_WIDTH ;
     int WIN_HEIGHT ;
 private:
-    const int pin_num = 6;
-    const int din_num = 8;
+    cv::FileStorage config_process;
+
 };
 
 

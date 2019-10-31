@@ -3,7 +3,6 @@
 
 LearningMethod::LearningMethod() {
     std::cout << "starting." << std::endl;
-    conf.process_conf();
     rfleft = 0;
     rftop = 0;
     area_width = conf.WIN_WIDTH;

@@ -1,9 +1,9 @@
 #include "../include/cmpro/rate_method.h"
 
-RateMethod::RateMethod() {
+RateMethod::RateMethod():conf()
+{
     std::cout << "starting." << std::endl;
-    conf.rate_conf();
-    conf.process_conf();
+
     rfleft = 0;
     rftop = 0;
     area_width = conf.WIN_WIDTH;

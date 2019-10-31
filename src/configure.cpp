@@ -4,39 +4,23 @@
 
 #include "../include/cmpro/configure.h"
 
-void Configure::rate_conf() {
-    std::ifstream fin;
-    fin.open("../configure/rate_configure.dat");
-    std::vector<double> din;
-    din.resize(din_num);
-    for(int i=0;i<din_num;++i){
-        fin >> din[i];
-    }
-    RATE_TOP = din[0];
-    RATE_BOTTOM = din[1];
-    ANGLE_JUDGEMENT = din[2];
-    MOUTH_TOP = din[3];
-    SCORE_TOP = din[4];
-    SCORE_MAX = din[5];
-    PERIOD_AVERAGE = din[6];
-    PERIOD_SERIOUS = din[7];
-    fin.close();
-}
+Configure::Configure():
+config_process("../configure/process_configure.yaml",cv::FileStorage::READ)
+{
+    WIN_WIDTH = (int)config_process["window_width"];
+    WIN_HEIGHT = (int)config_process["window_height"];
+    MARGIN_LEFT = (int)config_process["margin_left"];
+    MARGIN_TOP = (int)config_process["margin_top"];
+    MARGIN_RIGHT = (int)config_process["margin_right"];
+    MARGIN_DOWN = (int)config_process["margin_down"];
+    stin = (std::string)config_process["video_path"];
 
-void Configure::process_conf() {
-    std::ifstream fin;
-    fin.open("../configure/process_configure.dat");
-    std::vector<int> pin;
-    pin.resize(pin_num);
-    for(int i=0;i<pin_num;++i){
-        fin >> pin[i];
-    }
-    fin >> stin;
-    WIN_WIDTH = pin[0];
-    WIN_HEIGHT = pin[1];
-    MARGIN_LEFT = pin[2];
-    MARGIN_TOP = pin[3];
-    MARGIN_RIGHT = pin[4];
-    MARGIN_DOWN = pin[5];
-    fin.close();
+    RATE_TOP = (double)config_process["rate_top"];
+    RATE_BOTTOM = (double)config_process["rate_bottom"];
+    MOUTH_TOP = (double)config_process["mouth_top"];
+    ANGLE_JUDGEMENT = (double)config_process["angle_judgement"];
+    SCORE_TOP = (double)config_process["score_top"];
+    SCORE_MAX = (double)config_process["score_max"];
+    PERIOD_AVERAGE = (double)config_process["period_average"];
+    PERIOD_SERIOUS = (double)config_process["period_serious"];
 }
