@@ -25,4 +25,6 @@ config_process("../configure/process_configure.yaml",cv::FileStorage::READ)
     PERIOD_SERIOUS = (double)config_process["period_serious"];
 
     MODEL_NAME = (std::string)config_process["model_name"];
+    TENSOR_SHAPE = (int)config_process["tensor_shape"];
+    TENSOR_OUTPUT = (int)config_process["tensor_output"];
 }

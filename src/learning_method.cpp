@@ -59,9 +59,9 @@ void LearningMethod::loop_process() {
             clock_weight = clock();
             clock_time = clock();
 
-            sps = pose_model(cimg, faces[0]);
 
-            if (sps.num_parts() >= 68) {
+            if (!faces.empty()) {
+                sps = pose_model(cimg, faces[0]);
                 //if faces points found
                 ShapeProcessingClass shape_processing(sps);  //模型处理实例化
                 state = 0;

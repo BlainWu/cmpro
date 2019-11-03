@@ -38,6 +38,9 @@ public:
 
 //Deep Method
     std::string MODEL_NAME;
+    int TENSOR_SHAPE;
+    int TENSOR_OUTPUT;
+
 private:
     cv::FileStorage config_process;
 

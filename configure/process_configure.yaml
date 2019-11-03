@@ -16,3 +16,7 @@ period_average: 2.5
 period_serious: 5
 
 model_name: "45"
+
+tensor_shape: 134
+
+tensor_output: 4

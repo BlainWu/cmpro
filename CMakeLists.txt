@@ -50,7 +50,8 @@ add_executable(cmpro_dpl
         include/cmpro/shape_processing.h src/shape_processing.cpp
         include/cmpro/learning_method.h  src/learning_method.cpp
         include/cmpro/configure.h src/configure.cpp
-        )
+        include/cmpro/model.h src/model.cpp
+        src/deep_process.cpp include/cmpro/deep_process.h)
 
 add_executable(freeze_model src/model_freeze.cpp)
 
