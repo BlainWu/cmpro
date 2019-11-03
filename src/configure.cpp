@@ -23,4 +23,6 @@ config_process("../configure/process_configure.yaml",cv::FileStorage::READ)
     SCORE_MAX = (double)config_process["score_max"];
     PERIOD_AVERAGE = (double)config_process["period_average"];
     PERIOD_SERIOUS = (double)config_process["period_serious"];
+
+    MODEL_NAME = (std::string)config_process["model_name"];
 }

@@ -1,7 +1,4 @@
 # Configure
-
-### rate_configure
-
 - *rate_top*
 - *rate_bottom*
 
@@ -19,9 +16,6 @@
     score > score_top : fatigue
     
     score > score_max : the max is score_max
-    
-    
-### process_configure
 
 - window_width
 - window_height

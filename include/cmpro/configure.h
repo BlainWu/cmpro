@@ -35,6 +35,9 @@ public:
 //first compressed rate(size)
     int WIN_WIDTH ;
     int WIN_HEIGHT ;
+
+//Deep Method
+    std::string MODEL_NAME;
 private:
     cv::FileStorage config_process;
 

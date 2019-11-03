@@ -52,6 +52,7 @@ add_executable(cmpro_dpl
         include/cmpro/configure.h src/configure.cpp
         )
 
+add_executable(freeze_model src/model_freeze.cpp)
 
 #include_directories( ${SFML_INCLUDE_DIRS} )
 
