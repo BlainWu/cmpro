@@ -17,7 +17,15 @@ class DeepProcess {
 public:
     DeepProcess(Configure& config_,dlib::full_object_detection& shape_input);
     int deep_cal();
+
+    long shape_differ_left;
+    long shape_differ_top;
+    long shape_width;
+    long shape_height;
+
+    bool is_updated;
 private:
+    void DimensionCalculation();
     Model model_process;
     CoordinateConvert converter;
     Configure config;

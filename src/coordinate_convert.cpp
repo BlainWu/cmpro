@@ -31,7 +31,11 @@ void CoordinateConvert::ccpin(int tu_, int tv_, int deltau_, int deltav_) {
 std::vector<int> CoordinateConvert::multi_convert(std::vector<int> uvdata) {
     std::vector<int> ret;
     if(!is_determined){
-        return {0};
+        tu = uvdata[0];
+        tv = uvdata[1];
+        deltau = uvdata[32]-uvdata[0];
+        deltav = uvdata[33]-uvdata[1];
+        is_determined = true;
     }
     for(int i=0;i<68;i++){
         single_convert(uvdata[2*i],uvdata[2*i+1]);

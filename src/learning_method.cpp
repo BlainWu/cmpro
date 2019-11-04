@@ -63,31 +63,26 @@ void LearningMethod::loop_process() {
             if (!faces.empty()) {
                 sps = pose_model(cimg, faces[0]);
                 //if faces points found
-                ShapeProcessingClass shape_processing(sps);  //模型处理实例化
-                state = 0;
+                DeepProcess shape_processing(conf,sps);  //模型处理实例化
+                state = shape_processing.deep_cal();
 
-                score += (0.5 - shape_processing.eye_value) * (clock() - clock_weight) / 1000;
+                if(state == 1){
+                    score += 250;//Serious
+                }
+                if(state == 2){
+                    score += 200;//Average
+                }
+                if(state ==3){
+                    score += 75;//Slight
+                }
+                if(state ==4){
+                    score -= 50;//Normal
+                }
+
                 score = std::max(0.0, score);
                 score = std::min(conf.SCORE_MAX, score);
                 clock_weight = clock();
-                //Sub 状态判定
-                //fatigue degree judgement
-                if (score > conf.SCORE_TOP) {
-                    state = 3;
-                } else {
-                    state = 4;
-                }
 
-                if (shape_processing.eye_value < conf.RATE_BOTTOM) {
-                    if ((clock() - clock_time) / 1000.0 > conf.PERIOD_AVERAGE) {
-                        state = 2;
-                    }
-                    if ((clock() - clock_time) / 1000.0 > conf.PERIOD_SERIOUS) {
-                        state = 1;
-                    }
-                } else {
-                    clock_time = clock();
-                }
 
                 //Sub 末端处理(人脸切割)
                 //final preperation (face selection)
