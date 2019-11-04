@@ -16,6 +16,7 @@
 class DeepProcess {
 public:
     DeepProcess(Configure& config_,dlib::full_object_detection& shape_input);
+    int deep_cal();
 private:
     Model model_process;
     CoordinateConvert converter;

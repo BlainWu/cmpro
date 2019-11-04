@@ -1,7 +1,3 @@
-//
-// Created by kanae on 2019-08-23.
-//
-
 #include "../include/cmpro/model.h"
 
 Model::Model(Configure& config_) {

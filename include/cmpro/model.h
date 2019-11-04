@@ -1,3 +1,8 @@
+// model.model_load
+// result = model.pridict(shape)
+// shape : vector<int>
+
+
 #ifndef SPMAT_MODEL_H
 #define SPMAT_MODEL_H
 
