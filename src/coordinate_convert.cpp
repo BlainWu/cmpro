@@ -28,8 +28,8 @@ void CoordinateConvert::ccpin(int tu_, int tv_, int deltau_, int deltav_) {
     is_determined = true;
 }
 
-std::vector<int> CoordinateConvert::multi_convert(std::vector<int> uvdata) {
-    std::vector<int> ret;
+std::vector<double> CoordinateConvert::multi_convert(std::vector<int> uvdata) {
+    std::vector<double> ret;
     if(!is_determined){
         tu = uvdata[0];
         tv = uvdata[1];

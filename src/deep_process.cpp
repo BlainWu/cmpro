@@ -1,7 +1,7 @@
 #include "../include/cmpro/deep_process.h"
 
 DeepProcess::DeepProcess(Configure &config_,dlib::full_object_detection& shape_input):
-model_process(config_),converter()
+model_process(config_)
 {
     config = config_;
     detected_shape = shape_input;
@@ -10,7 +10,8 @@ model_process(config_),converter()
 }
 
 int DeepProcess::deep_cal() {
-    std::vector<double> shape_ori,shape_before;
+    std::vector<int> shape_ori;
+    std::vector<double> shape_before;
     int result=0;
     for(int i=0;i<68;i++){
         shape_ori.push_back(detected_shape.part(i).x());

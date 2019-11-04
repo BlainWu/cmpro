@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <deque>
 #include "tensorflow/core/public/session.h"
 #include "tensorflow/core/platform/env.h"
 #include "configure.h"
