@@ -6,11 +6,11 @@
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/image_processing/render_face_detections.h>
 #include <dlib/image_processing.h>
-#include "tensorflow/core/public/session.h"
-#include "tensorflow/core/platform/env.h"
+//#include "tensorflow/core/public/session.h"
+//#include "tensorflow/core/platform/env.h"
 #include "configure.h"
-#include "model.h"
 #include "coordinate_convert.h"
+#include "model.h"
 
 
 class DeepProcess {

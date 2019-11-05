@@ -24,8 +24,8 @@ public:
 
 
 
-private:
     LearningMethod();
+private:
 
     Configure conf;
 
