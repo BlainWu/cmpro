@@ -27,4 +27,5 @@ config_process("../configure/process_configure.yaml",cv::FileStorage::READ)
     MODEL_NAME = (std::string)config_process["model_name"];
     TENSOR_SHAPE = (int)config_process["tensor_shape"];
     TENSOR_OUTPUT = (int)config_process["tensor_output"];
+    INTERVAL = (int)config_process["interval"];
 }

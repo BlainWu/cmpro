@@ -41,6 +41,7 @@ public:
     int TENSOR_SHAPE;
     int TENSOR_OUTPUT;
 
+    int INTERVAL;
 private:
     cv::FileStorage config_process;
 

@@ -28,7 +28,7 @@ include_directories( ${OpenCV_INCLUDE_DIRS} )
 #        ${TENSORFLOW_SOURCE_DIR}/tensorflow/contrib/makefile/gen/protobuf/include
 #        /usr/local/include/eigen3
 #        )
-link_directories(${TENSORFLOW_SOURCE_DIR}/bazel-bin/tensorflow)
+#link_directories(${TENSORFLOW_SOURCE_DIR}/bazel-bin/tensorflow)
 add_executable(cmpro_rate
         test/cmpro_rate.cpp
         include/cmpro/common_include.h
@@ -48,9 +48,7 @@ add_executable(cmpro_dpl
         test/cmpro_dpl.cpp
         include/cmpro/common_include.h
         include/cmpro/shape_processing.h src/shape_processing.cpp
-        include/cmpro/learning_method.h  src/learning_method.cpp
         include/cmpro/configure.h src/configure.cpp
-        include/cmpro/model.h src/model.cpp
         src/deep_process.cpp include/cmpro/deep_process.h
         include/cmpro/sequence_convert.h src/sequence_convert.cpp
         )

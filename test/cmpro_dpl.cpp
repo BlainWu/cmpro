@@ -1,9 +1,9 @@
 #ifndef CMPRO_DPL_CPP
 #define CMPRO_DPL_CPP
-#include "../include/cmpro/learning_method.h"
+#include "../include/cmpro/deep_process.h"
 
 int main(){
-    LearningMethod learning_method;
+    DeepProcess learning_method;
     learning_method.loop_process();
     return 0;
 }
