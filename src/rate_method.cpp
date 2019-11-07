@@ -1,6 +1,6 @@
 #include "../include/cmpro/rate_method.h"
 
-RateMethod::RateMethod():conf()
+RateMethod::RateMethod():conf(),converter(),seqconverter(conf)
 {
     std::cout << "starting." << std::endl;
 
@@ -61,41 +61,55 @@ void RateMethod::loop_process(bool is_recorded) {
             std::vector<dlib::rectangle> faces = detector(cimg);
             dlib::full_object_detection sps;
 
-
-
-
             if (!faces.empty()) {
                 //if faces points found
+
                 sps = pose_model(cimg, faces[0]);
+                shape_processing.image_select(sps);
+
                 if(sps.num_parts() < 68){
                     std::cerr << "extraction error" << std::endl;
                     return;
                 }
-                ShapeProcessingClass shape_processing(sps);  //模型处理实例化
+
+
                 state = 0;
                 duration = clock() - clock_weight;
                 clock_weight = clock();
 
-                score += (0.5 - shape_processing.eye_value) * (duration) / 1000;
-                score = std::max(0.0, score);
-                score = std::min(conf.SCORE_MAX, score);
-                //Sub 状态判定
-                //fatigue degree judgement
-                if (score > conf.SCORE_TOP) {
-                    state = 3;
-                } else {
-                    state = 4;
+                std::vector<int> uvdata;
+                for(int i=0;i<68;++i){
+                    uvdata.push_back(sps.part(i).x());
+                    uvdata.push_back(sps.part(i).y());
                 }
 
-                if (shape_processing.eye_value < conf.RATE_BOTTOM) {
-                    if ((clock() - clock_time) / 1000000.0 > conf.PERIOD_AVERAGE) {
-                        state = 2;
+                std::vector<double> xydata = converter.multi_convert(uvdata);
+                std::vector<std::vector<double> > convert_result = seqconverter.newdata(xydata,duration);
+                for(std::vector<double> result_point : convert_result){
+                    shape_processing.value_cal(result_point);
+                    score += (0.5 - shape_processing.eye_value) * conf.INTERVAL / 1000;
+                    score = std::max(0.0, score);
+                    score = std::min(conf.SCORE_MAX, score);
+                    //Sub 状态判定
+                    //fatigue degree judgement
+                    if (score > conf.SCORE_TOP) {
+                        state = 3;
+                    } else {
+                        state = 4;
                     }
-                    if ((clock() - clock_time) / 1000000.0 > conf.PERIOD_SERIOUS) {
-                        state = 1;
+                    if(is_recorded){
+
+                        fout << state << ',';
+                        for(double point : result_point){
+                            fout << ',' << point;
+                        }
+                        fout << std::endl;
                     }
-                } else {
-                    clock_time = clock();
+                    putText(showing_image, show_msg[state], cv::Point(10, 60), cv::QT_FONT_NORMAL, 1, cvScalar(0, 0, 255),
+                            1, 1);
+                    std::cout << ctmsg[state] << ',' << score << std::endl;
+
+                    imshow("cap", showing_image);
                 }
 
                 //Sub 末端处理(人脸切割)
@@ -105,22 +119,9 @@ void RateMethod::loop_process(bool is_recorded) {
                 area_width = shape_processing.shape_width + conf.MARGIN_LEFT + conf.MARGIN_RIGHT;
                 area_height = shape_processing.shape_height + conf.MARGIN_TOP + conf.MARGIN_DOWN;
 
-                if(is_recorded){
-
-                    fout << state << ',';
-                    for(int i=0;i<68;++i){
-                        fout << shape_processing.detected_shape.part(i).x()+rfleft << ','
-                             << shape_processing.detected_shape.part(i).y()+rftop << ',';
-                    }
-                    fout << duration << std::endl;
-                }
 
 
-                putText(showing_image, show_msg[state], cv::Point(10, 60), cv::QT_FONT_NORMAL, 1, cvScalar(0, 0, 255),
-                        1, 1);
-                std::cout << ctmsg[state] << ',' << duration << std::endl;
 
-                imshow("cap", showing_image);
             }
             else{
                 putText(showing_image, show_msg[0], cv::Point(10, 60), cv::QT_FONT_NORMAL, 1, cvScalar(0, 0, 255),

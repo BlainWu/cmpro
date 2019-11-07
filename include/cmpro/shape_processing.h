@@ -8,10 +8,18 @@
 #include <dlib/image_processing/render_face_detections.h>
 #include <dlib/image_processing.h>
 
+#include "configure.h"
+#include "coordinate_convert.h"
+#include "sequence_convert.h"
+
 class ShapeProcessingClass {
 public:
 
-    ShapeProcessingClass(dlib::full_object_detection& shape_input);
+    ShapeProcessingClass();
+
+
+    void image_select(dlib::full_object_detection& shape_input);
+    void value_cal(std::vector<double>& vector_input_);
 
     double right_eye_value;
     double left_eye_value;
@@ -23,7 +31,7 @@ public:
     double angle_Y;
     double angle_Z;
 
-    bool is_updated;
+
 
     long shape_differ_left;
     long shape_differ_top;
@@ -34,7 +42,7 @@ public:
 
     dlib::full_object_detection detected_shape;
 private:
-
+    std::vector<double> vector_input;
     bool RightEyeValueCalculate();
     bool LeftEyeValueCalculate();
     bool MouthValueCalculate();

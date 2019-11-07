@@ -1,12 +1,16 @@
 #ifndef CMPRO_COORDINATECONVERT_H
 #define CMPRO_COORDINATECONVERT_H
 
+//(u,v)->(x,y)
+//u,v:int , x,y:double
+
+
 #include "common_include.h"
 #include <cmath>
 class CoordinateConvert {
 public:
     CoordinateConvert();
-    std::vector<int> multi_convert(std::vector<int> uvdata);
+    std::vector<double> multi_convert(std::vector<int> uvdata);
 private:
     bool is_determined;
     //The convert of (u,v) -> (x,y)

@@ -5,7 +5,7 @@ margin_left: 10
 margin_right: 10
 margin_top: 10
 margin_down: 10
-video_path: "day2"
+video_path: "day7"
 rate_top: 0.629
 rate_bottom: 0.45
 mouth_top: 0.5
@@ -14,3 +14,11 @@ score_top: 350
 score_max: 500
 period_average: 2.5
 period_serious: 5
+
+model_name: "45"
+
+tensor_shape: 134
+
+tensor_output: 4
+
+interval: 100000

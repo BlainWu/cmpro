@@ -15,13 +15,17 @@
 
 #include "configure.h"
 #include "shape_processing.h"
+#include "deep_process.h"
 
 class LearningMethod {
 public:
     void loop_process();
     bool is_loop_continue;
-private:
+
+
+
     LearningMethod();
+private:
 
     Configure conf;
 
@@ -37,6 +41,8 @@ private:
     double score;
     clock_t clock_weight ;
     clock_t clock_time ;
+
+
 
     //各种状态的显示消息
     const std::vector<std::string> ctmsg = {"未匹配","重度3","中度2","轻度1","正常0","状态异常"};
