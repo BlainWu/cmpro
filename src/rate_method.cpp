@@ -112,7 +112,7 @@ void RateMethod::loop_process(bool is_recorded) {
                     imshow("cap", showing_image);
                 }
 
-                //Sub 末端处理(人脸切割)
+                //Sub 末端处理(切割)
                 //final preperation (face selection)
                 rfleft += shape_processing.shape_differ_left - conf.MARGIN_LEFT;
                 rftop += shape_processing.shape_differ_top - conf.MARGIN_TOP;

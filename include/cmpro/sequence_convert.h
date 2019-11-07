@@ -6,13 +6,13 @@
 
 class SequenceConvert {
 public:
-    SequenceConvert(Configure& config);
+    SequenceConvert();
     std::vector<std::vector<double> > newdata
     (std::vector<double> new_value_,double new_dur_);
 private:
     double duration;
     std::vector<double> former;
-
+    Configure config;
     int shape_len;
 
     double interval;

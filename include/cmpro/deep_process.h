@@ -12,6 +12,8 @@
 #include "configure.h"
 #include "coordinate_convert.h"
 #include "sequence_convert.h"
+#include "shape_processing.h"
+#include "model.h"
 
 class DeepProcess {
 public:
@@ -22,6 +24,7 @@ public:
     bool is_loop_continue;
 
 
+    Model model_process;
 
     long shape_differ_left;
     long shape_differ_top;
@@ -34,6 +37,7 @@ private:
     CoordinateConvert converter;
     SequenceConvert seqconverter;
     Configure config;
+
     dlib::full_object_detection detected_shape;
 
     dlib::frontal_face_detector detector;
@@ -41,7 +45,7 @@ private:
     cv::Mat showing_image;
 
     int state;
-
+    long duration;
     //position and size of the selected area
     long rfleft, rftop, area_width, area_height;
 

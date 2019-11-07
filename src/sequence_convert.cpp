@@ -1,6 +1,6 @@
 #include "../include/cmpro/sequence_convert.h"
 
-SequenceConvert::SequenceConvert(Configure &config) {
+SequenceConvert::SequenceConvert():config() {
     shape_len = config.TENSOR_SHAPE;
     interval = config.INTERVAL;
     former.resize(shape_len);

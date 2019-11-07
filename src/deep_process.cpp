@@ -1,6 +1,6 @@
 #include "../include/cmpro/deep_process.h"
 
-DeepProcess::DeepProcess() :config(),converter(),seqconverter(config){
+DeepProcess::DeepProcess() :config(),converter(),seqconverter(),model_process(){
     std::cout << "starting." << std::endl;
     rfleft = 0;
     rftop = 0;
@@ -57,43 +57,59 @@ void DeepProcess::loop_process() {
             dlib::full_object_detection sps;
 
             clock_weight = clock();
-            clock_time = clock();
 
 
             if (!faces.empty()) {
                 sps = pose_model(cimg, faces[0]);
+                detected_shape = sps;
                 //if faces points found
+                DimensionCalculation();
+                if(sps.num_parts() < 68){
+                    std::cerr << "extraction error" << std::endl;
+                    return;
+                }
+                duration = clock() - clock_weight;
+                clock_weight = clock();
                 std::vector<int> uvdata;
                 for(unsigned long i=0;i<sps.num_parts();i++){
                     uvdata.push_back(sps.part(i).x());
                     uvdata.push_back(sps.part(i).y());
                 }
+                state = 0;
                 std::vector<double> xydata = converter.multi_convert(uvdata);
-                std::vector<std::vector<double> > new_vectors;
-                new_vectors = seqconverter.newdata(xydata);
+                std::vector<std::vector<double> > new_vectors = seqconverter.newdata(xydata,duration);;
                 for(auto new_vector : new_vectors){
+                    state = model_process.model_predict(new_vector);
 
+
+                    if(state == 1){
+                        score += 250;//Serious
+                    }
+                    if(state == 2){
+                        score += 200;//Average
+                    }
+                    if(state ==3){
+                        score += 75;//Slight
+                    }
+                    if(state ==4){
+                        score -= 50;//Normal
+                    }
+
+                    score = std::max(0.0, score);
+                    score = std::min(config.SCORE_MAX, score);
+
+                    putText(showing_image, show_msg[state], cv::Point(10, 60), cv::QT_FONT_NORMAL, 1, cvScalar(0, 0, 255),
+                            1, 1);
+                    std::cout << ctmsg[state] << std::endl;
+
+                    imshow("cap", showing_image);
                 }
 
 
                 //state = shape_processing.deep_cal();
 
-                if(state == 1){
-                    score += 250;//Serious
-                }
-                if(state == 2){
-                    score += 200;//Average
-                }
-                if(state ==3){
-                    score += 75;//Slight
-                }
-                if(state ==4){
-                    score -= 50;//Normal
-                }
 
-                score = std::max(0.0, score);
-                score = std::min(config.SCORE_MAX, score);
-                clock_weight = clock();
+
 
 
                 //Sub 末端处理(人脸切割)
@@ -103,11 +119,7 @@ void DeepProcess::loop_process() {
                 area_width = shape_width + config.MARGIN_LEFT + config.MARGIN_RIGHT;
                 area_height = shape_height + config.MARGIN_TOP + config.MARGIN_DOWN;
 
-                putText(showing_image, show_msg[state], cv::Point(10, 60), cv::QT_FONT_NORMAL, 1, cvScalar(0, 0, 255),
-                        1, 1);
-                std::cout << ctmsg[state] << std::endl;
 
-                imshow("cap", showing_image);
             }
         }
 
