@@ -11,6 +11,9 @@
 
 #include "configure.h"
 #include "shape_processing.h"
+#include "sequence_convert.h"
+#include "coordinate_convert.h"
+
 class RateMethod {
 public:
     RateMethod();
@@ -20,6 +23,10 @@ public:
     void loop_process(bool is_recorded);
 private:
     Configure conf;
+    ShapeProcessingClass shape_processing;
+    CoordinateConvert converter;
+    SequenceConvert seqconverter;
+
 
     dlib::frontal_face_detector detector;
     dlib::shape_predictor pose_model;

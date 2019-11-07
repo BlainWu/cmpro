@@ -63,9 +63,17 @@ void DeepProcess::loop_process() {
             if (!faces.empty()) {
                 sps = pose_model(cimg, faces[0]);
                 //if faces points found
+                std::vector<int> uvdata;
+                for(unsigned long i=0;i<sps.num_parts();i++){
+                    uvdata.push_back(sps.part(i).x());
+                    uvdata.push_back(sps.part(i).y());
+                }
+                std::vector<double> xydata = converter.multi_convert(uvdata);
+                std::vector<std::vector<double> > new_vectors;
+                new_vectors = seqconverter.newdata(xydata);
+                for(auto new_vector : new_vectors){
 
-
-
+                }
 
 
                 //state = shape_processing.deep_cal();

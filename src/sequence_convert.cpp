@@ -2,6 +2,7 @@
 
 SequenceConvert::SequenceConvert(Configure &config) {
     shape_len = config.TENSOR_SHAPE;
+    interval = config.INTERVAL;
     former.resize(shape_len);
     duration = 0;
 }
@@ -11,6 +12,9 @@ std::vector<std::vector<double> > SequenceConvert::newdata
 {
     double new_dur = new_dur_;
     std::vector<std::vector<double>> ret;
+    if(new_dur_>100*interval){
+        return ret;
+    }
     while(duration+new_dur>interval){
         std::vector<double> value_now;
         value_now.resize(shape_len);

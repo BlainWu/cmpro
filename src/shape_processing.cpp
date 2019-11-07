@@ -1,110 +1,90 @@
 
 #include "../include/cmpro/shape_processing.h"
 
-ShapeProcessingClass::ShapeProcessingClass(dlib::full_object_detection& shape_input) {
+ShapeProcessingClass::ShapeProcessingClass
+()
+{
+
+
+
+}
+
+void ShapeProcessingClass::image_select(dlib::full_object_detection& shape_input) {
     detected_shape = shape_input;
+    DimensionCalculation();
+}
+
+void ShapeProcessingClass::value_cal(std::vector<double>& vector_input_) {
+    vector_input = vector_input_;
     if((RightEyeValueCalculate()&&LeftEyeValueCalculate()&&MouthValueCalculate())){
-        is_updated = true;
         eye_value = (right_eye_value + left_eye_value) * 0.5;
         is_eye_normal = true;
         DimensionCalculation();
     }
     else{
         std::cerr << "Initializetion Failure Error" << std::endl;
-        is_updated = false;
+
     }
 }
+
+
 
 void ShapeProcessingClass::DimensionCalculation() {
     long shape_differ_right=0;
     long shape_differ_down=0;
-    if(is_updated){
-        shape_differ_left=detected_shape.part(0).x();
-        shape_differ_right=detected_shape.part(16).x();
-        shape_differ_top=std::min(detected_shape.part(19).y(),detected_shape.part(24).y());
-        shape_differ_down=detected_shape.part(9).y();
-        for(unsigned long i=1;i<27;i++){
-            shape_differ_left=std::min(shape_differ_left,detected_shape.part(i).x());
-            shape_differ_right=std::max(shape_differ_right,detected_shape.part(i).x());
-            shape_differ_top=std::min(shape_differ_top,detected_shape.part(i).y());
-            shape_differ_down=std::max(shape_differ_down,detected_shape.part(i).y());
-        }
-        shape_width = shape_differ_right - shape_differ_left;
-        shape_height = shape_differ_down - shape_differ_top;
+
+    shape_differ_left=detected_shape.part(0).x();
+    shape_differ_right=detected_shape.part(16).x();
+    shape_differ_top=std::min(detected_shape.part(19).y(),detected_shape.part(24).y());
+    shape_differ_down=detected_shape.part(9).y();
+    for(unsigned long i=1;i<27;i++){
+        shape_differ_left=std::min(shape_differ_left,detected_shape.part(i).x());
+        shape_differ_right=std::max(shape_differ_right,detected_shape.part(i).x());
+        shape_differ_top=std::min(shape_differ_top,detected_shape.part(i).y());
+        shape_differ_down=std::max(shape_differ_down,detected_shape.part(i).y());
     }
-    else{
-        std::cerr << "Shape sub not prepared Error" << std::endl;
-        return;
-    }
+    shape_width = shape_differ_right - shape_differ_left;
+    shape_height = shape_differ_down - shape_differ_top;
+    return;
 }
 
 
 
 bool ShapeProcessingClass::RightEyeValueCalculate() {
-    if(detected_shape.num_parts()<68){
+    if(vector_input.size()<132){
         std::cerr << "Face detection Error" << std::endl;
         return false;
     }
-    long le1=detected_shape.part(39).x()-detected_shape.part(36).x();
-    long le2=detected_shape.part(39).y()-detected_shape.part(36).y();
-    double le=sqrt(le1*le1+le2*le2);
-    long da1=detected_shape.part(41).x()-detected_shape.part(37).x();
-    long da2=detected_shape.part(41).y()-detected_shape.part(37).y();
-    long db1=detected_shape.part(40).x()-detected_shape.part(38).x();
-    long db2=detected_shape.part(40).y()-detected_shape.part(38).y();
-    double da=sqrt(da1*da1+da2*da2);
-    double db=sqrt(db1*db1+db2*db2);
-    if(le<1){
-        std::cerr << "eyes detect mistake" << std::endl;
-        return false;
-    }
+    double da=vector_input[(42-2)*2+1]-vector_input[(38-2)*2+1];
+    double db=vector_input[(41-2)*2+1]-vector_input[(39-2)*2+1];
+    double le=vector_input[(40-2)*2]-vector_input[(37-2)*2];
     double k=(da+db)/le;
     right_eye_value=k;
     return true;
 }
 
 bool ShapeProcessingClass::LeftEyeValueCalculate() {
-    if(detected_shape.num_parts()<68){
+    if(vector_input.size()<132){
         std::cerr << "Face detection Error" << std::endl;
         return false;
     }
-
-    long le1=detected_shape.part(45).x()-detected_shape.part(42).x();
-    long le2=detected_shape.part(45).y()-detected_shape.part(42).y();
-    double le=sqrt(le1*le1+le2*le2);
-    long da1=detected_shape.part(47).x()-detected_shape.part(43).x();
-    long da2=detected_shape.part(47).y()-detected_shape.part(43).y();
-    long db1=detected_shape.part(46).x()-detected_shape.part(44).x();
-    long db2=detected_shape.part(46).y()-detected_shape.part(44).y();
-    double da=sqrt(da1*da1+da2*da2);
-    double db=sqrt(db1*db1+db2*db2);
-
-    if(le<1){
-        std::cerr << "eyes detect mistake" << std::endl;
-        return false;
-    }
-
+    double da=vector_input[(48-2)*2+1]-vector_input[(44-2)*2+1];
+    double db=vector_input[(47-2)*2+1]-vector_input[(45-2)*2+1];
+    double le=vector_input[(46-2)*2]-vector_input[(43-2)*2];
     double k=(da+db)/le;
     left_eye_value=k;
     return true;
 }
 
 bool ShapeProcessingClass::MouthValueCalculate() {
-    if(detected_shape.num_parts()<68){
+    if(vector_input.size()<132){
         std::cerr << "Face detection Error" << std::endl;
         return false;
     }
-    long wit1=detected_shape.part(48).x()-detected_shape.part(54).x();
-    long wit2=detected_shape.part(48).y()-detected_shape.part(54).y();
-    double wit=sqrt(wit1*wit1+wit2*wit2);
-    long hei1=detected_shape.part(51).x()-detected_shape.part(57).x();
-    long hei2=detected_shape.part(51).y()-detected_shape.part(57).y();
-    double hei=sqrt(hei1*hei1+hei2*hei2);
-    double m=hei/wit;
-    if(m<=0){
-        std::cerr << "Mouth detection calculation Error" << std::endl;
-        return false;
-    }
+    double hei=vector_input[(52-2)*2+1]-vector_input[(58-2)*2+1];
+    double wit=vector_input[(55-2)*2]-vector_input[(49-2)*2];
+    double k=hei/wit;
+    mouth_value = k;
     return true;
 }
 
@@ -152,3 +132,6 @@ bool ShapeProcessingClass::AnglePoseDetect() {
     angle_Z = euler_angle.at<double>(2);
     return true;
 }
+
+
+

@@ -9,9 +9,15 @@ std::vector<double> CoordinateConvert::single_convert(int u, int v) {
     if(!is_determined){
         return {0,0};
     }
-    double beta = atan((v-tv)/(u-tu))-theta;
-    x_double = sqrt((u-tu)*(u-tu)+(v-tv)*(v-tv))*cos(beta);
-    y_double = sqrt((u-tu)*(u-tu)+(v-tv)*(v-tv))*sin(beta);
+    double beta;
+    if(u==tu){
+        beta = 3.1415826/2-theta;
+    }
+    else{
+        beta = atan((double)(v-tv)/(u-tu))-theta;
+    }
+    x_double = sqrt((double)(u-tu)*(u-tu)+(double)(v-tv)*(v-tv))*cos(beta);
+    y_double = sqrt((double)(u-tu)*(u-tu)+(double)(v-tv)*(v-tv))*sin(beta);
     x_int = (int)x_double;
     y_int = (int)y_double;
     x_double = x_double*10/deltau;
@@ -24,7 +30,7 @@ void CoordinateConvert::ccpin(int tu_, int tv_, int deltau_, int deltav_) {
     tv=tv_;
     deltau=deltau_;
     deltav=deltav_;
-    theta = atan(deltav/deltau);
+    theta = atan((double)deltav/deltau);
     is_determined = true;
 }
 
@@ -37,7 +43,7 @@ std::vector<double> CoordinateConvert::multi_convert(std::vector<int> uvdata) {
         deltav = uvdata[33]-uvdata[1];
         is_determined = true;
     }
-    for(int i=0;i<68;i++){
+    for(int i=1;i<68;i++){
         single_convert(uvdata[2*i],uvdata[2*i+1]);
         ret.push_back(x_double);
         ret.push_back(y_double);

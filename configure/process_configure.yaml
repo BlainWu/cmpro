@@ -5,7 +5,7 @@ margin_left: 10
 margin_right: 10
 margin_top: 10
 margin_down: 10
-video_path: "day2"
+video_path: "day7"
 rate_top: 0.629
 rate_bottom: 0.45
 mouth_top: 0.5
@@ -21,4 +21,4 @@ tensor_shape: 134
 
 tensor_output: 4
 
-interval: 10000
+interval: 100000
